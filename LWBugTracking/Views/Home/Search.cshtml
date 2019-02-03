@@ -1,0 +1,140 @@
+﻿
+
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Search Results</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Dashboard</span></li>
+                <li><span>Search</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="search-content">
+        <div class="search-control-wrapper">
+            <form action="pages-search-results.html">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="something">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @*<div class="search-toolbar">
+                <ul class="list-unstyled nav nav-pills">
+                    <li class="active">
+                        <a href="#everything" data-toggle="tab">Everything</a>
+                    </li>
+                    <li>
+                        <a href="#medias" data-toggle="tab">Medias</a>
+                    </li>
+                </ul>
+            </div>*@
+        <div class="tab-content">
+            <div id="everything" class="tab-pane active">
+                <br />
+                <p class="total-results text-muted">Showing 1 to 10 of 47 results</p>
+
+                <ul class="list-unstyled search-results-list">
+
+
+                    <li>
+                        <p class="result-type">
+                            <span class="label label-primary">user</span>
+                        </p>
+                        <a href="pages-user-profile.html" class="has-thumb">
+                            <div class="result-thumb">
+                                <img src="~/img/!logged-user.jpg" alt="John Doe" />
+                            </div>
+                            <div class="result-data">
+                                <p class="h3 title text-primary">John Doe</p>
+                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ante nisl, sagittis nec lacus et, convallis efficitur justo. Curabitur elementum feugiat quam. Etiam ac orci iaculis, luctus nisl et, aliquet metus. Praesent congue tortor venenatis, ornare eros eu, semper orci.</p>
+                            </div>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+                <hr class="solid mb-none" />
+
+
+
+                <div id="PageInfo">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @*@Html.PagedListPager(Model, page => Url.Action("Search", new { page, searchStr = ViewBag.Search }))*@
+                </div>
+
+
+
+
+
+
+
+                @*<ul class="pagination">
+                    <li class="prev disabled">
+                        <a href="#">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li class="next">
+                        <a href="#">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>*@
+            </div>
+            @*<div id="emails" class="tab-pane">
+                    <p>Recent</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+                </div>*@
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+
+    <!-- end: page -->
+</section>
+
+
+
+
+
+

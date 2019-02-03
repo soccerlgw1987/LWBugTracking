@@ -1,0 +1,120 @@
+﻿
+@model LWBugTracking.Models.Ticket
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Details</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Dashboard</span></li>
+                <li><span>Tickets</span></li>
+                <li><span>Details</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div>
+        <h4>Ticket</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OwnerUser.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Project.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Project.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketPriority.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketType.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketType.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Updated)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <!-- end: page -->
+</section>
