@@ -29,6 +29,7 @@
         @Html.HiddenFor(model => model.UserName)
         @Html.HiddenFor(model => model.PasswordHash)
         @Html.HiddenFor(model => model.SecurityStamp)
+        @Html.HiddenFor(model => model.Email)
 
         <div class="form-horizontal">
             <h4>User</h4>
@@ -36,7 +37,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-group">
-                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("First Name", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -44,7 +45,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -52,7 +53,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Display Name", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
@@ -60,35 +61,38 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.AvatarPath, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Avatar Path", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.AvatarPath, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.AvatarPath, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            @*<div class="form-group">
+                    @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.Label("Choose Role", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Roles", null, htmlAttributes: new { @class = "form-control" })
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    @Html.Label("Choose Role", null, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Roles", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
+            }
+
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

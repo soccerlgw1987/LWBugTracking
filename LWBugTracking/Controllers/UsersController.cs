@@ -64,7 +64,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: Users/Edit/5
-        [Authorize(Roles = "Admin")]
+        
         public ActionResult Edit(string id)
         {
             if (id == null)

@@ -156,28 +156,25 @@
                             @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
 
                             @*<form class="form-horizontal" method="get">*@
-                                <h4 class="mb-xlg">Personal Information</h4>
-                                <fieldset>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="profileAddress">Display Name</label>
-                                        <div class="col-md-8">
-                                            @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control", @id = "profileAddress"})
-                                            @*@Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", @id = "profileAddress" })*@
-                                            @*<input type="text" class="form-control" id="profileAddress">*@
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-9 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
+                            <h4 class="mb-xlg">Personal Information</h4>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label" style="text-align: center" for="profileAddress"><a href="@Url.Action("Edit","Users", new { id = User.Identity.GetUserId() })">Click here</a> to edit personal information!</label>
+                                    @*<div class="col-md-8">
+                                        @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control", @id = "profileAddress"})
+                                        
+                                    </div>*@
                                 </div>
+                            </fieldset>
+                            <br />
+                            @*<div class="row">
+                                <div class="col-md-9 col-md-offset-3">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>*@
                             @*</form>*@
 
                         }
-
-
 
 
                         <hr class="dotted tall">
