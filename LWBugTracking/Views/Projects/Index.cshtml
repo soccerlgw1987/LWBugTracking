@@ -1,8 +1,114 @@
-﻿@model IEnumerable<LWBugTracking.Models.Project>
+﻿@*@model IEnumerable<LWBugTracking.Models.Project>
+    @using LWBugTracking.Helper
+    <section role="main" class="content-body">
+        <header class="page-header">
+            <h2>All Project List</h2>
+
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li>
+                        <a href="@Url.Action("Index","Home")">
+                            <i class="fa fa-home"></i>
+                        </a>
+                    </li>
+                    <li><span>Dashboard</span></li>
+                    <li><span>All Projects</span></li>
+                </ol>
+
+                <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+            </div>
+        </header>
+
+        <!-- start: page -->
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+        {
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+        }
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayName("Project Manager")
+                </th>
+                <th>
+                    @Html.DisplayName("Developer(s)")
+                </th>
+                <th>
+                    @Html.DisplayName("Submitter")
+                </th>
+                <th></th>
+            </tr>
+            @{
+                var projHelper = new ProjectHelper();
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @foreach (var pm in projHelper.GetProjectUserRoles("Project Manager", item.Id))
+                        {
+                            @pm
+                        }
+                    </td>
+                    <td>
+                        @foreach (var dev in projHelper.GetProjectUserRoles("Developer", item.Id))
+                        {
+                            @dev
+                            <br />
+                            <br />
+                        }
+                    </td>
+                    <td>
+                        @foreach (var sub in projHelper.GetProjectUserRoles("Submitter", item.Id))
+                        {
+                            @sub
+                        }
+                    </td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        </td>
+                    }
+
+                </tr>
+            }
+
+        </table>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+        <!-- end: page -->
+    </section>*@
+
+
+@model IEnumerable<LWBugTracking.Models.Project>
 @using LWBugTracking.Helper
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>All Project List</h2>
+        <h2>Project List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -20,252 +126,102 @@
     </header>
 
     <!-- start: page -->
-    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-    {
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-    }
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayName("Project Manager")
-            </th>
-            <th>
-                @Html.DisplayName("Developer(s)")
-            </th>
-            <th>
-                @Html.DisplayName("Submitter")
-            </th>
-            <th></th>
-        </tr>
-        @{
-            var projHelper = new ProjectHelper();
-        }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @foreach (var pm in projHelper.GetProjectUserRoles("Project Manager", item.Id))
-                    {
-                        @pm
-                    }
-                </td>
-                <td>
-                    @foreach (var dev in projHelper.GetProjectUserRoles("Developer", item.Id))
-                    {
-                        @dev
-                        <br />
-                        <br />
-                    }
-                </td>
-                <td>
-                    @foreach (var sub in projHelper.GetProjectUserRoles("Submitter", item.Id))
-                    {
-                        @sub
-                    }
-                </td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.Id })
-                    </td>
-                }
-
-            </tr>
-        }
-
-    </table>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
-    <!-- end: page -->
-</section>
 
 
-@*@model IEnumerable<LWBugTracking.Models.Project>
-
-    <section role="main" class="content-body">
-        <header class="page-header">
-            <h2>Project List</h2>
-
-            <div class="right-wrapper pull-right">
-                <ol class="breadcrumbs">
-                    <li>
-                        <a href="@Url.Action("Index","Home")">
-                            <i class="fa fa-home"></i>
-                        </a>
-                    </li>
-                    <li><span>Dashboard</span></li>
-                    <li><span>Projects</span></li>
-                </ol>
-
-                <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                @*<a href="#" class="fa fa-times"></a>*@
             </div>
+
+            <h2 class="panel-title">Projects</h2>
         </header>
-
-        <!-- start: page -->
-
-
-        <section class="panel">
-            <header class="panel-heading">
-                <div class="panel-actions">
-                    <a href="#" class="fa fa-caret-down"></a>
-                    <a href="#" class="fa fa-times"></a>
-                </div>
-
-                <h2 class="panel-title">Projects</h2>
-            </header>
-            <div class="panel-body">
-                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                {
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="mb-md">
-                                <button id="addToTable" class="btn btn-primary">Create <i class="fa fa-plus"></i></button>
-                            </div>
+        <div class="panel-body">
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-md">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                            {
+                                <p>
+                                    @Html.ActionLink("Create New", "Create")
+                                </p>
+                            }
+                            @*<button id="addToTable" class="btn btn-primary">Create <i class="fa fa-plus"></i></button>*@
                         </div>
                     </div>
-                }
+                </div>
+            }
 
 
-                <div class="dataTables_wrapper no-footer" id="datatable-editable_wrapper">
-                    @*<div class="row datatables-header form-inline">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="dataTables_length" id="datatable-editable_length">
-                                    <label>
-                                        <div class="select2-container" id="s2id_autogen1">
-                                            <a tabindex="-1" class="select2-choice" href="javascript:void(0)">
-                                                <span class="select2-chosen" id="select2-chosen-2">10</span>
-                                                <abbr class="select2-search-choice-close"></abbr>
-                                                <span class="select2-arrow" role="presentation"><b role="presentation"></b></span>
-                                            </a>
-                                            <label class="select2-offscreen" for="s2id_autogen2"></label>
-                                            <input class="select2-focusser select2-offscreen" id="s2id_autogen2" role="button" aria-haspopup="true" aria-labelledby="select2-chosen-2" type="text">
-                                        </div>
-                                        <select name="datatable-editable_length" tabindex="-1" title="" class="select2-offscreen" aria-controls="datatable-editable">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select> records per page
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="dataTables_filter" id="datatable-editable_filter">
-                                    <label>
-                                        <input class="form-control" aria-controls="datatable-editable" type="search" placeholder="Search">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>*@
+            <div class="dataTables_wrapper no-footer" id="datatable-editable_wrapper">
 
-@*<div class="table-responsive">
-    <table class="table table-bordered table-striped mb-none" id="datatable-editable">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Name)</th>
-                <th>@Html.DisplayNameFor(model => model.Description)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-none dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                        <thead>
+                            <tr role="row">
+                                <th tabindex="0" class="sorting_asc" aria-controls="datatable-editable" style="width: 205px;" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Name)</th>
+                                @*<th>@Html.DisplayNameFor(model => model.Name)</th>*@
+                                <th tabindex="0" class="sorting" aria-controls="datatable-editable" style="width: 205px;" aria-label="Browser: activate to sort column ascending" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Description)</th>
+                                @*<th>@Html.DisplayNameFor(model => model.Description)</th>*@
+                                <th tabindex="0" class="sorting" aria-controls="datatable-editable" style="width: 205px;" aria-label="Rendering engine: activate to sort column ascending" rowspan="1" colspan="1">@Html.DisplayName("Project Manager")</th>
+                                @*<th>@Html.DisplayName("Project Manager")</th>*@
+                                <th tabindex="0" class="sorting" aria-controls="datatable-editable" style="width: 205px;" aria-label="Rendering engine: activate to sort column ascending" rowspan="1" colspan="1">@Html.DisplayName("Developer(s)")</th>
+                                @*<th>@Html.DisplayName("Developer(s)")</th>*@
+                                <th tabindex="0" class="sorting" aria-controls="datatable-editable" style="width: 205px;" aria-label="Rendering engine: activate to sort column ascending" rowspan="1" colspan="1">@Html.DisplayName("Submitter")</th>
+                                @*<th>@Html.DisplayName("Submitter")</th>*@
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var projHelper = new ProjectHelper();
+                            }
+                            @foreach (var item in Model)
+                            {
 
-            @foreach (var item in Model)
-            {
-
-                <tr class="gradeX">
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                    <td class="actions">
-                        <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-                        <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-                        <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                        <a data-toggle="modal" data-target="#dialog" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-                    </td>
-                </tr>
-            }*@
-
-
-@*<tr class="gradeC">
-        <td>Trident</td>
-        <td>
-            Internet
-            Explorer 5.0
-        </td>
-        <td>Win 95+</td>
-        <td class="actions">
-            <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-            <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-            <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-            <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-    </tr>*@
-@*</tbody>
-        </table>
-    </div>*@
-
-@*<div class="row datatables-footer">
-        <div class="col-sm-12 col-md-6">
-            <div class="dataTables_info" id="datatable-editable_info" role="status" aria-live="polite">
-                Showing 1 to 10 of 57 entries
+                                <tr class="gradeX">
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                    <td>
+                                        @foreach (var pm in projHelper.GetProjectUserRoles("Project Manager", item.Id))
+                                        {
+                                            @pm
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (var dev in projHelper.GetProjectUserRoles("Developer", item.Id))
+                                        {
+                                            @dev
+                                            <br />
+                                            <br />
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (var sub in projHelper.GetProjectUserRoles("Submitter", item.Id))
+                                        {
+                                            @sub
+                                        }
+                                    </td>
+                                    <td class="actions">
+                                        @*<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>*@
+                                        <i class="fa fa-pencil">@Html.ActionLink(" Edit", "Edit", new { id = item.Id })</i>
+                                        @*<a href="@Url.Action("Edit","Projects", new { id = item.Id})" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>*@
+                                        @*<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>*@
+                                        @*<a data-toggle="modal" data-target="#dialog" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
-                <ul class="pagination">
-                    <li class="prev disabled">
-                        <a href="#"><span class="fa fa-chevron-left"></span></a>
-                    </li>
-                    <li class="active">
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li class="next">
-                        <a href="#"><span class="fa fa-chevron-right"></span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>*@
-@*</div>
         </div>
     </section>
 
-    <div id="dialog" class="modal-block mfp-hide">
+    @*<div id="dialog" class="modal-block mfp-hide">
         <section class="panel">
             <header class="panel-heading">
                 <h2 class="panel-title">Are you sure?</h2>
@@ -286,11 +242,11 @@
                 </div>
             </footer>
         </section>
-    </div>
+    </div>*@
 
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
-    }*@
-<!-- end: page -->
-@*</section>*@
+    }
+    <!-- end: page -->
+</section>
 

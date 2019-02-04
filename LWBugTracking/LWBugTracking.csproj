@@ -297,6 +297,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Private.config" />
+    <None Include="Properties\PublishProfiles\LWBugTracking - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\examples.dashboard.js" />
     <Content Include="Scripts\gauge.js" />
@@ -341,7 +342,9 @@
     <Content Include="Scripts\theme.custom.js" />
     <Content Include="Scripts\theme.init.js" />
     <Content Include="Scripts\theme.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
