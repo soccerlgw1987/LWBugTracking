@@ -104,19 +104,27 @@
                         </div>
                     </div>
 
-                    <span class="mt-lg mb-lg line-thru text-center text-uppercase">
-                        <span>or</span>
-                    </span>
 
-                    <div class="mb-xs text-center">
-                        <a class="btn btn-facebook mb-md ml-xs mr-xs">Connect with <i class="fa fa-facebook"></i></a>
-                        <a class="btn btn-twitter mb-md ml-xs mr-xs">Connect with <i class="fa fa-twitter"></i></a>
-                    </div>
-
-                    <p class="text-center">
-                        Don't have an account yet? <a href="pages-signup.html">@Html.ActionLink("Register Now!", "Register")</a>
-                    </p>
                 }
+                <span class="mt-lg mb-lg line-thru text-center text-uppercase">
+                    <span>or</span>
+                </span>
+
+                <div class="mb-xs text-center">
+                    <section id="socialLoginForm">
+                        @*<a class="btn btn-facebook mb-md ml-xs mr-xs">Connect with <i class="fa fa-linkedin"></i></a>*@
+                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                        @*<a class="btn btn-gplus mb-md ml-xs mr-xs">Connect with <i class="fa fa-google"></i></a>*@
+                    </section>
+                </div>
+
+                <p class="text-center">
+                    Don't have an account yet? <a href="pages-signup.html">@Html.ActionLink("Register Now!", "Register")</a>
+                </p>
+
+
+
+
             </div>
         </div>
 

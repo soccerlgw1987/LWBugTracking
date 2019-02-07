@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     public class ProfileController : Controller
     {
         // GET: Profile

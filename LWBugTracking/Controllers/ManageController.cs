@@ -10,6 +10,7 @@ using LWBugTracking.Models;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {

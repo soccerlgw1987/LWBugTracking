@@ -243,9 +243,9 @@ a:active {
 /* Layout Boxed - larger or equal min width */
 @media only screen and (min-width: 1200px) {
 	/* Layout Boxed - Body Tag */
-	html.boxed body {
-		background: url(../images/patterns/denim.png) repeat;
-	}
+    html.boxed body {
+        background: url(~/img/patterns/denim.png) repeat;
+    }
 
 	/* Layout Boxed - Main Wrapper */
 	html.boxed .body {
@@ -2841,11 +2841,11 @@ blockquote.dark {
 
 /* Arrows */
 .arrow {
-	background: transparent url(../images/arrows.png) no-repeat 0 0;
-	width: 47px;
-	height: 120px;
-	display: inline-block;
-	position: relative;
+    background: transparent url(~/img/arrows.png) no-repeat 0 0;
+    width: 47px;
+    height: 120px;
+    display: inline-block;
+    position: relative;
 }
 
 .arrow.vtl {
@@ -8208,7 +8208,7 @@ html.dark .chart-data-selector h2 .multiselect {
 }
 
 .jstree-default .jstree-checkbox {
-	background-image: url(../images/jstree.png);
+    background-image: url(~/img/jstree.png);
 }
 
 .jstree-default .jstree-icon {
@@ -8246,7 +8246,7 @@ html.dark .chart-data-selector h2 .multiselect {
 
 /* dark */
 html.dark body .jstree-default .jstree-checkbox {
-	background-image: url(../images/jstree-dark.png);
+    background-image: url(~/img/jstree-dark.png);
 }
 
 html.dark body .jstree-default .jstree-hovered {
@@ -15377,9 +15377,9 @@ html.dark .invoice table.table > tbody tr > td {
 
 /* Lock Screen */
 .body-locked {
-	background: url(../images/patterns/noisy_net.png) repeat;
-	max-width: none;
-	min-height: 400px;
+    background: url(~/img/patterns/noisy_net.png) repeat;
+    max-width: none;
+    min-height: 400px;
 }
 .body-locked.body-locked-inline {
 	background: none;
@@ -15452,9 +15452,9 @@ html.dark .invoice table.table > tbody tr > td {
 }
 /* Lock Screen - Modal */
 .mfp-lock-screen.mfp-bg {
-	background: black url(../images/patterns/noisy_net.png) repeat;
-	opacity: 0.99;
-	z-index: 9998;
+    background: black url(~/img/patterns/noisy_net.png) repeat;
+    opacity: 0.99;
+    z-index: 9998;
 }
 .mfp-lock-screen.mfp-wrap {
 	background: none;

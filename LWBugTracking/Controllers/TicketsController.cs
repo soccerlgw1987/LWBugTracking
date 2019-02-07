@@ -6,13 +6,19 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LWBugTracking.Helper;
 using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private ProjectHelper projHelper = new ProjectHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -37,10 +43,10 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: Tickets/Create
+        [Authorize(Roles = "Admin,Submitter")]
         public ActionResult Create()
         {
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
+            
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
@@ -53,10 +59,14 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Title,Description,ProjectId,TicketTypeId,TicketPriorityId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New").Id;
+                ticket.OwnerUserId = User.Identity.GetUserId();
+                //ticket.OwnerUser = User.Identity.GetUserName();
+                ticket.Created = DateTime.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,11 +93,14 @@ namespace LWBugTracking.Controllers
             {
                 return HttpNotFound();
             }
+
+            var roleHelper = new UserRolesHelper();
+
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses.Where(s => s.Name != "New"), "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
@@ -97,10 +110,17 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                var currentStatus = db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name;
+                if (currentStatus == "New")
+                {
+                    ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id;
+                }
+
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

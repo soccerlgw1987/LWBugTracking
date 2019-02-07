@@ -150,7 +150,7 @@
                     </div>
                     <div id="edit" class="tab-pane">
 
-                        @using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { @class = "form-horizontal", @method = "post" }))
+                        @using (Html.BeginForm("EditMy", "Users", FormMethod.Post, new { @class = "form-horizontal", @method = "post" }))
                         {
                             @Html.AntiForgeryToken()
                             @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
@@ -159,7 +159,7 @@
                             <h4 class="mb-xlg">Personal Information</h4>
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" style="text-align: center" for="profileAddress"><a href="@Url.Action("Edit","Users", new { id = User.Identity.GetUserId() })">Click here</a> to edit personal information!</label>
+                                    <label class="col-md-12 control-label" style="text-align: center" for="profileAddress"><a href="@Url.Action("EditMy","Users", new { id = User.Identity.GetUserId() })">Click here</a> to edit personal information!</label>
                                     @*<div class="col-md-8">
                                         @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control", @id = "profileAddress"})
                                         

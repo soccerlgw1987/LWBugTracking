@@ -13,6 +13,7 @@ using System.Net.Mail;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
@@ -154,7 +155,7 @@ namespace LWBugTracking.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.DisplayName,
+                    UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,

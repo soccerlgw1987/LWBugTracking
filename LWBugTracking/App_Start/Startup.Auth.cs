@@ -58,11 +58,13 @@ namespace LWBugTracking
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "786443902453-n6jhund8s7lstcqtn3shg8bvvua6h8ec.apps.googleusercontent.com",
+                ClientSecret = "Bw6WEdqFvuP8GCklTQV9X3N2"
+            });
+
+            //app.UseLinkedInAuthentication("", "");
         }
     }
 }

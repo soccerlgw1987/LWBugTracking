@@ -10,6 +10,7 @@ using LWBugTracking.Models;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

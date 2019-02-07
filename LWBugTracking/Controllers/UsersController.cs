@@ -11,6 +11,7 @@ using LWBugTracking.Models;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -64,7 +65,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: Users/Edit/5
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -111,6 +112,66 @@ namespace LWBugTracking.Controllers
             }
             return View(applicationUser);
         }
+
+
+
+
+
+
+        // GET: Users/Edit/5
+
+        public ActionResult EditMy(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser applicationUser = db.Users.Find(id);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+
+            //allow a role to be selected
+            var currentRole = roleHelper.ListUserRoles(id).FirstOrDefault();
+            ViewBag.Roles = new SelectList(db.Roles, "Name", "Name", currentRole);
+
+            return View(applicationUser);
+        }
+
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMy([Bind(Include = "Id,FirstName,LastName,DisplayName,AvatarPath,Email,SecurityStamp,PhoneNumber,PasswordHash,UserName")] ApplicationUser applicationUser, string roles)
+        {
+            if (ModelState.IsValid)
+            {
+                //since i might be changing the users role, i want to first remove from all roles
+                var currentRoles = roleHelper.ListUserRoles(applicationUser.Id);
+                foreach (var role in currentRoles)
+                {
+                    roleHelper.RemoveUserFromRole(applicationUser.Id, role);
+                }
+                if (!string.IsNullOrEmpty(roles))
+                    roleHelper.AddUserToRole(applicationUser.Id, roles);
+
+                applicationUser.UserName = applicationUser.Email;
+
+                db.Entry(applicationUser).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return View(applicationUser);
+        }
+
+
+
+
+
+
 
         // GET: Users/Delete/5
         [Authorize(Roles = "Admin")]

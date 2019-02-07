@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
+    [RequireHttps]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -65,6 +66,9 @@ namespace LWBugTracking.Controllers
         {
             if (ModelState.IsValid)
             {
+                project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "New").Id;
+                project.Created = DateTime.Now;
+                project.CompletionDate = project.Created.AddDays(7);
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -128,13 +132,15 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Project project, string ProjectManager, string Submitter, List<string> Developers)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,CompletionDate,Created,ProjectStatusId")] Project project, string ProjectManager, string Submitter, List<string> Developers)
         {
             //List all users on this project
-            var projUsers = projHelper.UsersOnProject(project.Id);
+            var projUsers = new List<ApplicationUser>();
 
             if (ModelState.IsValid)
             {
+
+                projUsers = projHelper.UsersOnProject(project.Id).ToList();
                 //Remove all users from this project
                 foreach (var user in projUsers.ToList())
                 {
@@ -152,10 +158,13 @@ namespace LWBugTracking.Controllers
                     }
                 }
 
-
+                var currentStatus = db.ProjectStatuses.FirstOrDefault(p => p.Id == project.ProjectStatusId).Status;
+                if(currentStatus == "New")
+                {
+                    project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "In Progress").Id;
+                }
+                
                 db.Entry(project).State = EntityState.Modified;
-                //db.Users.Attach(User);
-                //db.Entry(User).Property(x => x.FirstName).IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -42,6 +42,12 @@ namespace LWBugTracking.Migrations
                 new TicketType() { Name = "Critical" },
                 new TicketType() { Name = "Other" });
 
+            context.ProjectStatuses.AddOrUpdate(p => p.Status,
+                new ProjectStatus() { Status = "New" },
+                new ProjectStatus() { Status = "In Progress" },
+                new ProjectStatus() { Status = "Past Due!" },
+                new ProjectStatus() { Status = "Completed" });
+
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 

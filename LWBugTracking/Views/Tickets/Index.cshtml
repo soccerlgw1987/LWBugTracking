@@ -1,6 +1,6 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @model IEnumerable<LWBugTracking.Models.Ticket>
-
+@using LWBugTracking.Helper
 <section role="main" class="content-body">
     <header class="page-header">
         <h2>Ticket List</h2>
@@ -21,90 +21,179 @@
     </header>
 
     <!-- start: page -->
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketType.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
+    @if (User.IsInRole("Admin"))
+    {
+        <section class="panel">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                </div>
 
-    </table>
+                <h2 class="panel-title">All Tickets</h2>
+            </header>
+            <div class="panel-body">
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-md">
+
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-striped mb-none" id="datatable-details2">
+
+                    <thead>
+                        <tr>
+
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Description)</th>
+                            <th>@Html.DisplayName("Project Name")</th>
+                            <th>@Html.DisplayName("Priority")</th>
+                            <th>@Html.DisplayName("Status")</th>
+                            <th>@Html.DisplayName("Type")</th>
+                            <th>@Html.DisplayName("Assigned User")</th>
+                            <th>@Html.DisplayName("Ticket Owner")</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="gradeA">
+
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Project.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.OwnerUser.FirstName)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
     }
+
+
+
+
+
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+            </div>
+
+            <h2 class="panel-title">My Tickets</h2>
+        </header>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-md">
+                        @if (User.IsInRole("Submitter"))
+                        {
+                            <p>
+                                @Html.ActionLink("Create New", "Create")
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+
+                <thead>
+                    <tr>
+
+                        <th>@Html.DisplayNameFor(model => model.Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayName("Project Name")</th>
+                        <th>@Html.DisplayName("Priority")</th>
+                        <th>@Html.DisplayName("Status")</th>
+                        <th>@Html.DisplayName("Type")</th>
+                        <th>@Html.DisplayName("Assigned User")</th>
+                        <th>@Html.DisplayName("Ticket Owner")</th>
+                        <th class="tblTicketId">@Html.DisplayName("Id")</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var projHelper = new ProjectHelper();
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.OwnerUserId == User.Identity.GetUserId() || item.AssignedToUserId == User.Identity.GetUserId() || projHelper.IsUserOnProject(User.Identity.GetUserId(), item.ProjectId))
+                        {
+                            <tr class="gradeA">
+
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Project.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.OwnerUser.FirstName)</td>
+                                <td class="tblTicketId">@Html.DisplayFor(modelItem => item.Id)</td>
+
+                                @if (User.IsInRole("Project Manager"))
+                                {
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                    </td>
+                                }
+                                else if (User.IsInRole("Developer") && item.AssignedToUserId == User.Identity.GetUserId())
+                                {
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                    </td>
+                                }
+                                else if (User.IsInRole("Submitter") && item.OwnerUserId == User.Identity.GetUserId())
+                                {
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
     <!-- end: page -->
+
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".tblTicketId").hide();
+    </script>
+}
+
 
