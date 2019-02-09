@@ -4,7 +4,7 @@
 	'use strict';
 
 	var datatableInit = function() {
-		var $table = $('#datatable-details');
+        var $table = $('#datatable-details');
 
 		// format function for row details
 		var fnFormatDetails = function( datatable, tr ) {
@@ -13,12 +13,12 @@
 			return [
 				'<table class="table mb-none">',
 					'<tr class="b-top-none">',
-						'<td><label class="mb-none">Ticket Comments:</label></td>',
-						'<td></td>',
+						'<td><label class="mb-none">Comments:</label></td>',
+                        '<td><a href="/Tickets/DetailsComments/' + data[10] + '">View all Comments!</a></td>',
 					'</tr>',
 					'<tr>',
-                '<td><label class="mb-none">Ticket Attachments:</label></td>',
-                '<td><a href="/Tickets/Details/' + data[9] + '">Lets go!</a></td>',
+                        '<td><label class="mb-none">Attachments:</label></td>',
+                        '<td><a href="/Tickets/Details/' + data[10] + '">View all Attachments!</a></td>',
 					'</tr>',
 				'</div>'
 			].join('');

@@ -1,124 +1,9 @@
-﻿@*@model LWBugTracking.Models.Ticket
-
-    <section role="main" class="content-body">
-        <header class="page-header">
-            <h2>Details</h2>
-
-            <div class="right-wrapper pull-right">
-                <ol class="breadcrumbs">
-                    <li>
-                        <a href="@Url.Action("Index","Home")">
-                            <i class="fa fa-home"></i>
-                        </a>
-                    </li>
-                    <li><span>Dashboard</span></li>
-                    <li><span>Tickets</span></li>
-                    <li><span>Details</span></li>
-                </ol>
-
-                <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-            </div>
-        </header>
-
-        <!-- start: page -->
-        <div>
-            <h4>Ticket</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.AssignedToUser.FirstName)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.OwnerUser.FirstName)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Project.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Project.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.TicketPriority.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TicketPriority.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.TicketStatus.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TicketStatus.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.TicketType.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TicketType.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Created)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Created)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Updated)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Updated)
-                </dd>
-
-            </dl>
-        </div>
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
-
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
-        <!-- end: page -->
-    </section>*@
+﻿
 
 @model LWBugTracking.Models.Ticket
+@using LWBugTracking.Helper
+@using System.Web;
+@using System.Web.Configuration;
 
 <section role="main" class="content-body">
     <header class="page-header">
@@ -133,6 +18,7 @@
                 </li>
                 <li><span>Dashboard</span></li>
                 <li><span>Tickets</span></li>
+                <li><span>Tickets Attachments</span></li>
             </ol>
 
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -153,7 +39,21 @@
                     <h2 class="panel-title">File Upload</h2>
                 </header>
                 <div class="panel-body">
-                    <form action="/upload" class="dropzone dz-square" id="dropzone-example"></form>
+
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data", @class = "dropzone dz-square", id = "dropzone-example" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+
+
+                        <div class="form-group">
+                            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("AttachmentDescription", new { htmlAttributes = new { @class = "form-control", placeholder="Add description BEFORE uploading image" } })
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </section>
         </div>
@@ -177,19 +77,18 @@
                         <a data-option-value="*" href="#all">All</a>
                     </li>
                     <li>
-                        <a data-option-value=".document" href="#document">Documents</a>
+                        <a data-option-value=".document" href="#document">Document</a>
                     </li>
                     <li>
                         <a data-option-value=".image" href="#image">Images</a>
                     </li>
                     <li>
-                        <a data-option-value=".video" href="#video">Videos</a>
+                        <a data-option-value=".video" href="#video">PDF</a>
                     </li>
                 </ul>
             </li>
         </ul>
     </div>
-
 
 
     <section class="content-with-menu content-with-menu-has-toolbar media-gallery">
@@ -201,296 +100,121 @@
                         <!-- TopTabNeeded -->
                         <!-- Needed -->
                         <div class="row mg-files" data-sort-destination data-sort-id="media-gallery">
+                            @{
+                                var counter = 1;
+                                var typeExt = "";
+                            }
 
 
-                            <div class="isotope-item document col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-1.jpg">
-                                            <img src="~/img/projects/project-1.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_1" value="1">
-                                                    <label for="file_1">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
+                            @foreach (var attachment in Model.TicketAttachments.OrderByDescending(a => a.Created))
+                            {
+                                foreach (var ext in WebConfigurationManager.AppSettings["validExtensions"].Split(','))
+                                {
+                                    if (Path.GetExtension(attachment.FilePath).Contains(ext))
+                                    {
+                                        typeExt = ext;
 
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
+                                    }
+                                    break;
+                                }
+
+                                if (Path.GetExtension(attachment.FilePath) == ".doc" ||
+                                    Path.GetExtension(attachment.FilePath) == ".docx" ||
+                                    Path.GetExtension(attachment.FilePath) == ".txt" ||
+                                    Path.GetExtension(attachment.FilePath) == ".xls" ||
+                                    Path.GetExtension(attachment.FilePath) == ".xlsx")
+                                {
+                                    typeExt = "document";
+                                }
+                                else if (Path.GetExtension(attachment.FilePath) == ".pdf")
+                                {
+                                    typeExt = "video";
+                                }
+                                else
+                                {
+                                    typeExt = "image";
+                                }
+
+
+                                <div class="isotope-item @(typeExt) col-sm-6 col-md-4 col-lg-3">
+                                    <div class="thumbnail">
+                                        <div class="thumb-preview">
+
+                                            @if (typeExt == "document")
+                                            {
+                                                <a class="thumb-preview" href="~/img/WordDoc-pic.jpg">
+                                                    <img src="~/img/WordDoc-pic.jpg" class="img-responsive" alt="Project">
+                                                </a>
+                                            }
+                                            else if (typeExt == "video")
+                                            {
+                                                <a class="thumb-preview" href="~/img/PDF-pic.png">
+                                                    <img src="~/img/PDF-pic.png" class="img-responsive" alt="Project">
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="thumb-image" href="@attachment.FilePath">
+                                                    <img src="@attachment.FilePath" class="img-responsive" alt="Project">
+                                                </a>
+                                            }
+
+                                            <div class="mg-thumb-options">
+                                                <div class="mg-zoom"><i class="fa fa-search"></i></div>
+                                                <div class="mg-toolbar">
+                                                    <div class="mg-option checkbox-custom checkbox-inline">
+                                                        <input type="checkbox" id="file_@(counter)" value="1">
+                                                        <label for="file_@(counter)">SELECT</label>
+                                                    </div>
+                                                    <div class="mg-group pull-right">
+
+                                                        <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
+                                                            <i class="fa fa-caret-up"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu mg-menu" role="menu">
+                                                            @*<li>
+                                                                <i class="fa fa-download"></i>@Html.ActionLink("Download","")
+                                                            </li>*@
+                                                            <li><a id="btnDownload" href="@attachment.FilePath" download><i class="fa fa-download"></i> Download</a></li>
+                                                            @using (Html.BeginForm("Delete", "TicketAttachments", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("TicketId", attachment.Id)
+
+                                                                <li><button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button></li>
+
+                                                            }
+                                                            @*<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>*@
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">SEO<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Description</small>
-                                        <small class="pull-right text-muted"> 07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="isotope-item col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-2.jpg">
-                                            <img src="~/img/projects/project-2.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_2" value="1">
-                                                    <label for="file_2">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                        <div class="mg-description">
+                                            <small class="pull-left text-muted">@attachment.Description</small>
+                                            <small class="pull-right text-muted"> @attachment.Created.ToString("MM/dd/yyyy")</small>
                                         </div>
                                     </div>
-                                    <h5 class="mg-title text-semibold">Blog<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">PSDs, Projects</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="isotope-item video col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-5.jpg">
-                                            <img src="~/img/projects/project-5.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_3" value="1">
-                                                    <label for="file_3">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Friends<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Projects, Vacation</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="isotope-item image col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-4.jpg">
-                                            <img src="~/img/projects/project-4.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_4" value="1">
-                                                    <label for="file_4">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Life<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Images, Photos</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="isotope-item video col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-5.jpg">
-                                            <img src="~/img/projects/project-5.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_5" value="1">
-                                                    <label for="file_5">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Poetry<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Websites</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="isotope-item document col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-6.jpg">
-                                            <img src="~/img/projects/project-6.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_6" value="1">
-                                                    <label for="file_6">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Fun<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Documentation, Projects</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="isotope-item col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-7.jpg">
-                                            <img src="~/img/projects/project-7.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_7" value="1">
-                                                    <label for="file_7">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Family<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Documentation</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="isotope-item image col-sm-6 col-md-4 col-lg-3">
-                                <div class="thumbnail">
-                                    <div class="thumb-preview">
-                                        <a class="thumb-image" href="~/img/projects/project-1.jpg">
-                                            <img src="~/img/projects/project-1.jpg" class="img-responsive" alt="Project">
-                                        </a>
-                                        <div class="mg-thumb-options">
-                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
-                                            <div class="mg-toolbar">
-                                                <div class="mg-option checkbox-custom checkbox-inline">
-                                                    <input type="checkbox" id="file_8" value="1">
-                                                    <label for="file_8">SELECT</label>
-                                                </div>
-                                                <div class="mg-group pull-right">
-
-                                                    <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
-                                                        <i class="fa fa-caret-up"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu mg-menu" role="menu">
-                                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mg-title text-semibold">Hapiness<small>.png</small></h5>
-                                    <div class="mg-description">
-                                        <small class="pull-left text-muted">Websites</small>
-                                        <small class="pull-right text-muted">07/10/2014</small>
-                                    </div>
-                                </div>
-                            </div>
+                                counter++;
+                            }
                         </div>
-
                     </section>
                 </div>
             </div>
         </div>
     </section>
 
+    <!--EndPage-->
 
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            $(document).off('click', '#btnDownload').on('click', '#btnDownload', function (e) {
+                e.preventDefault();
+                window.location.href = e.currentTarget.href;
+            });
+        </script>
+    }
 
-
-
-
-
-
-
-
-            <!--EndPage-->
-
-            @section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-            }
-
-    </section>
+</section>

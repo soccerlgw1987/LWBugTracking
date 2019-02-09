@@ -27,23 +27,54 @@ namespace LWBugTracking.Controllers
             return View(tickets.ToList());
         }
 
-        // GET: Tickets/Details/5
+        // GET: Tickets/Details/5/Attachments
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
             Ticket ticket = db.Tickets.Find(id);
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            return View(ticket);
+
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            {
+                return View(ticket);
+            }
+
+            return RedirectToAction("InvalidAttempt", "Home");
+        }
+
+        // GET: Tickets/Details/5/Comments
+        public ActionResult DetailsComments(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            {
+                return View(ticket);
+            }
+
+            return RedirectToAction("InvalidAttempt", "Home");
         }
 
         // GET: Tickets/Create
-        [Authorize(Roles = "Admin,Submitter")]
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
             
@@ -65,7 +96,6 @@ namespace LWBugTracking.Controllers
             {
                 ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New").Id;
                 ticket.OwnerUserId = User.Identity.GetUserId();
-                //ticket.OwnerUser = User.Identity.GetUserName();
                 ticket.Created = DateTime.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
@@ -84,6 +114,8 @@ namespace LWBugTracking.Controllers
         // GET: Tickets/Edit/5
         public ActionResult Edit(int? id)
         {
+            var roleHelper = new UserRolesHelper();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,15 +126,18 @@ namespace LWBugTracking.Controllers
                 return HttpNotFound();
             }
 
-            var roleHelper = new UserRolesHelper();
-
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses.Where(s => s.Name != "New"), "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            {
+                ViewBag.AssignedToUser = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "FirstName", ticket.AssignedToUser);
+                ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+                ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+                ViewBag.TicketStatusId = new SelectList(db.TicketStatuses.Where(s => s.Name != "New"), "Id", "Name", ticket.TicketStatusId);
+                ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+                return View(ticket);
+            }
+            return RedirectToAction("InvalidAttempt","Home");
+            
         }
 
         // POST: Tickets/Edit/5
@@ -135,6 +170,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: Tickets/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

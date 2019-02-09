@@ -62,16 +62,20 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] Project project)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,CompletionDate")] Project project)
         {
-            if (ModelState.IsValid)
+
+            if (project.CompletionDate > DateTime.Now)
             {
-                project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "New").Id;
-                project.Created = DateTime.Now;
-                project.CompletionDate = project.Created.AddDays(7);
-                db.Projects.Add(project);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "New").Id;
+                    project.Created = DateTime.Now;
+                    //project.CompletionDate = project.Created.AddDays(7);
+                    db.Projects.Add(project);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(project);
@@ -90,6 +94,7 @@ namespace LWBugTracking.Controllers
             {
                 return HttpNotFound();
             }
+
 
             //var projectManager = UserRolesHelper.UsersInRole("Project Manager");
             //ViewBag.ProjectManager = new SelectList(projectManager, "Id", "DisplayName");

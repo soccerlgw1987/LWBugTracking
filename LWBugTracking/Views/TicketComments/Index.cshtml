@@ -1,51 +1,256 @@
 ﻿@model IEnumerable<LWBugTracking.Models.TicketComment>
 
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Ticket Comments</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Dashboard</span></li>
+                <li><span>Tickets</span></li>
+                <li><span>Ticket Comments</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+    <!-- start: page -->
+    <br />
+    <br />
+    <div class="inner-toolbar clearfix">
+        <ul>
+            <li class="right">
+                <ul class="nav nav-pills nav-pills-primary">
+                    <li>
+                        <label>Type</label>
+                    </li>
+                    <li class="active">
+                        <a href="#access-log" data-toggle="tab">Access Log</a>
+                    </li>
+                    <li>
+                        <a href="#error-log" data-toggle="tab">Error Log</a>
+                    </li>
+                    <li>
+                        <a href="#custom-log" data-toggle="tab">Custom Log</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <section class="panel">
+        <div class="panel-body tab-content">
+            <div id="access-log" class="tab-pane active">
+                <table class="table table-striped table-no-more table-bordered  mb-none">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%"><span class="text-normal text-sm">Type</span></th>
+                            <th style="width: 15%"><span class="text-normal text-sm">Date</span></th>
+                            <th><span class="text-normal text-sm">Message</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="log-viewer">
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-bug fa-fw text-muted text-md va-middle"></i> Debug
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 18:25:59
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                my.host - oh snap! another exception
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-info fa-fw text-info text-md va-middle"></i> Info
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 21:50:17
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                "GET / HTTP/1.1" 200 1225
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-warning fa-fw text-warning text-md va-middle"></i> Warning
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 17:44:21
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                DocumentRoot [/var/www/porto-admin/] does not exist
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div id="error-log" class="tab-pane">
+                <table class="table table-striped table-no-more table-bordered mb-none">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%"><span class="text-normal text-sm">Type</span></th>
+                            <th style="width: 15%"><span class="text-normal text-sm">Date</span></th>
+                            <th><span class="text-normal text-sm">Message</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="log-viewer">
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-times-circle fa-fw text-danger text-md va-middle"></i> Error
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 21:55:30
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                File does not exist: /var/www/porto-admin/favicon.ico
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-times-circle fa-fw text-danger text-md va-middle"></i> Error
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 21:55:29
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                File does not exist: /var/www/porto-admin/favicon.ico
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-times-circle fa-fw text-danger text-md va-middle"></i> Error
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                13/04/2014 21:55:28
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                File does not exist: /var/www/porto-admin/favicon.ico
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div id="custom-log" class="tab-pane">
+                <table class="table table-striped table-no-more table-bordered  mb-none">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%"><span class="text-normal text-sm">Type</span></th>
+                            <th style="width: 15%"><span class="text-normal text-sm">Date</span></th>
+                            <th><span class="text-normal text-sm">Message</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="log-viewer">
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-info fa-fw text-info text-md va-middle"></i> Info
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                12/04/2014 21:50:54
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                "GET / HTTP/1.1" 200 1225
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-info fa-fw text-info text-md va-middle"></i> Info
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                12/04/2014 21:50:53
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                "GET /assets/vendor/bootstrap/css/bootstrap.css HTTP/1.1" 200 110495
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Type" class="pt-md pb-md">
+                                <i class="fa fa-info fa-fw text-info text-md va-middle"></i> Info
+                            </td>
+                            <td data-title="Date" class="pt-md pb-md">
+                                12/04/2014 21:50:52
+                            </td>
+                            <td data-title="Message" class="pt-md pb-md">
+                                "GET /assets/stylesheets/theme.css HTTP/1.1" 200 1273
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Ticket.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayName("First Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CommentBody)
+            @Html.DisplayName("Comment")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayName("Created Date")
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ticket.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommentBody)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
-</table>
+</table>*@

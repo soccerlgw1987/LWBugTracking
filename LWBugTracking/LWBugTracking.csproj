@@ -197,6 +197,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\AttachmentHelper.cs" />
+    <Compile Include="Helper\FileUploadValidator.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\TicketHelper.cs" />
     <Compile Include="Helper\UserRolesHelper.cs" />
@@ -313,6 +315,7 @@
     <Content Include="img\patterns\textured_stripes.png" />
     <Content Include="img\patterns\wild_oliva.png" />
     <Content Include="img\patterns\worn_dots.png" />
+    <Content Include="img\PDF-pic.png" />
     <Content Include="img\pdf.png" />
     <Content Include="img\pdf_hover.png" />
     <Content Include="img\post-thumb-1.jpg" />
@@ -350,6 +353,7 @@
     <Content Include="img\ui-icons_ffd27a_256x240.png" />
     <Content Include="img\ui-icons_ffffff_256x240.png" />
     <Content Include="img\widget-twitter-profile.jpg" />
+    <Content Include="img\WordDoc-pic.jpg" />
     <Content Include="img\xls.png" />
     <Content Include="img\xls_hover.png" />
     <Content Include="Scripts\active-line.js" />
@@ -442,6 +446,17 @@
     <Content Include="Scripts\theme.js" />
     <Content Include="Scripts\to-markdown.js" />
     <Content Include="Scripts\xml.js" />
+    <Content Include="Uploads\Blog - Copy.jpg" />
+    <Content Include="Uploads\BugTracker.jpg" />
+    <Content Include="Uploads\JSPic.png" />
+    <Content Include="Uploads\MVC-Model.jpg" />
+    <Content Include="Uploads\Qlik.jpg" />
+    <Content Include="Uploads\Study_guide.txt" />
+    <Content Include="Uploads\Warhammer.jpg" />
+    <Content Include="Uploads\Warhammer1.jpg" />
+    <Content Include="Uploads\Warhammer2.jpg" />
+    <Content Include="Uploads\WebAPI.png" />
+    <Content Include="Uploads\Xamarin.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -535,6 +550,11 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\IndexMy.cshtml" />
     <Content Include="Views\Users\EditMy.cshtml" />
+    <Content Include="Views\Tickets\DetailsComments.cshtml" />
+    <Content Include="Views\Home\InvalidAttempt.cshtml" />
+    <Content Include="Uploads\Assigning users to Projects.docx" />
+    <Content Include="Uploads\DataTables_030918.pdf" />
+    <Content Include="Uploads\LINQ_Pocket_Reference.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

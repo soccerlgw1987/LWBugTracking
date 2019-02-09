@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LWBugTracking.Helper;
 using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
@@ -16,6 +19,7 @@ namespace LWBugTracking.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketAttachments
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
@@ -23,6 +27,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketAttachments/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,13 +55,22 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,TicketId,FilePath,Description,Created")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId")] TicketAttachment ticketAttachment, string AttachmentDescription, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                if(FileUploadValidator.IsWebFriendlyImage(file))
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    file.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    ticketAttachment.FilePath = "/Uploads/" + fileName;
+                }
+                ticketAttachment.Description = AttachmentDescription;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+                ticketAttachment.Created = DateTime.Now;
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details","Tickets", new { id =ticketAttachment.TicketId});
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
@@ -65,6 +79,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketAttachments/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -100,6 +115,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketAttachments/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -117,12 +133,12 @@ namespace LWBugTracking.Controllers
         // POST: TicketAttachments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int TicketId)
         {
-            TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
+            TicketAttachment ticketAttachment = db.TicketAttachments.Find(TicketId);
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
         }
 
         protected override void Dispose(bool disposing)

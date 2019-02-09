@@ -1,0 +1,43 @@
+	
+Theory
+-----------
+
+- Old
+	- What is a Type and how do we create one in C#
+	- What is the purpose of a Controller in our MVC project?
+	- Explain the HttpGet and HttPost data cycles
+	- What is a static method and how would I use one?
+	- What is an overloaded Method?
+	
+- New
+	- What is a Constructor and why would I ever overload one?
+	- How would I perform the following actions using LINQ
+		- Get all the BlogPost records from the DB and turn them into a List
+		- Get all the Comment records from the DB who's parent record has an Id of 7
+		- Get all the BlogPost records from the DB that have been published in descending order by Created date
+		- Get the first 5 BlogPost records
+		- Get the last 5 BlogPost records
+		- Count all of the Comments that are attached to a BlogPost
+		
+
+Code
+---------
+
+- Code a given BS Grid
+- Code these Algorithms 
+	- Reverse a string (JS)
+	- Reverse a string (C#)
+	- Fizz-Buzz (JS)
+	
+- Write the necessary razor code to do the following actions
+	- Create a link that READS "Dashboard" and takes me to the "Dashboard" ACTION
+	- Create a link that READS "Index", takes me to the "Index" ACTION of the "Admin" CONTROLLER
+	- Create a link that READS "Details", taKes me to the "Details" ACTION of the BlogPost CONTROLLER and passes in "id" as a ROUTE VALUE
+	- Create a link that READS "Details", taKes me to the "Details" ACTION of the BlogPost CONTROLLER, passes in "id" as a ROUTE VALUE and passes in "Class = 'Form-Control'" as an HtmlAttribute
+	
+- Write the necessary razor code to do the following actions
+	- Create a Form that submits its data to the same Controller and same Action as the View it is in.	
+	- Create a Form that submits itd data to the HttpPost version of the "Create" ACTION in the "BlogPosts" CONTROLLER
+	- Create a Form that submits itd data to the HttpPost version of the "Create" ACTION in the "BlogPosts" CONTROLLER that allows the passing of an image
+	- Create a Form that submits itd data to the HttpPost version of the "Create" ACTION in the "BlogPosts" CONTROLLER that allows the passing of an image and the following Hidden
+

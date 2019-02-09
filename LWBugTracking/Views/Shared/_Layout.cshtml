@@ -34,6 +34,7 @@
     <link href="~/Content/jquery.isotope.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-colorpicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-timepicker.css" rel="stylesheet" />
     <link href="~/Content/basic.css" rel="stylesheet" />
     <link href="~/Content/dropzone.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-markdown.min.css" rel="stylesheet" />
@@ -388,24 +389,25 @@
                                         <span>My Projects</span>
                                     </a>
                                 </li>
-                                @*<li>
-                                        <a href="@Url.Action("AssignRole","Admin")">
-                                            <i class="fa fa-users" aria-hidden="true"></i>
-                                            <span>Assign Users</span>
-                                        </a>
-                                    </li>*@
+
                                 <li>
                                     <a href="@Url.Action("Index","Tickets")">
                                         <i class="fa fa-ticket" aria-hidden="true"></i>
                                         <span>Tickets</span>
                                     </a>
                                 </li>
-                                <li>
+                                @*<li>
                                     <a href="@Url.Action("Index","TicketAttachments")">
                                         <i class="fa fa-ticket" aria-hidden="true"></i>
                                         <span>TicketAttachments</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="@Url.Action("Index","TicketComments")">
+                                        <i class="fa fa-ticket" aria-hidden="true"></i>
+                                        <span>TicketComments</span>
+                                    </a>
+                                </li>*@
                             </ul>
                         </nav>
 
@@ -539,7 +541,6 @@
     <script src="~/Scripts/examples.mediagallery.js"></script>
     <script src="~/Scripts/examples.advanced.form.js"></script>
 
-    <script>$('#datatable-details2').DataTable();</script>
     <script>$('#datatable-editable').DataTable();</script>
 
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
@@ -16,6 +17,7 @@ namespace LWBugTracking.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketComments
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var ticketComments = db.TicketComments.Include(t => t.Ticket).Include(t => t.User);
@@ -23,6 +25,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketComments/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,6 +41,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketComments/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
@@ -50,13 +54,15 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CommentBody,Created,TicketId,UserId")] TicketComment ticketComment)
+        public ActionResult Create([Bind(Include = "CommentBody,TicketId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.Now;
+                ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("DetailsComments", "Tickets", new { id = ticketComment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
@@ -100,6 +106,7 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketComments/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
