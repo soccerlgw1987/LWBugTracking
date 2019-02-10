@@ -447,8 +447,11 @@
     <Content Include="Scripts\to-markdown.js" />
     <Content Include="Scripts\xml.js" />
     <Content Include="Uploads\Blog - Copy.jpg" />
+    <Content Include="Uploads\BugTracker-Blog.jpg.png" />
     <Content Include="Uploads\BugTracker.jpg" />
+    <Content Include="Uploads\CFlogo.jpg" />
     <Content Include="Uploads\JSPic.png" />
+    <Content Include="Uploads\LoL.jpg" />
     <Content Include="Uploads\MVC-Model.jpg" />
     <Content Include="Uploads\Qlik.jpg" />
     <Content Include="Uploads\Study_guide.txt" />

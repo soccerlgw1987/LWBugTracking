@@ -148,7 +148,8 @@
 
                         @foreach (var item in Model)
                         {
-                            if (item.OwnerUser.Email == User.Identity.Name || item.AssignedToUser.Email == User.Identity.Name)
+                            if(item.OwnerUserId == User.Identity.GetUserId() || item.AssignedToUserId == User.Identity.GetUserId() || projHelper.IsUserOnProject(User.Identity.GetUserId(),item.ProjectId))
+                            //if (item.OwnerUser.Email == User.Identity.Name || item.AssignedToUser.Email == User.Identity.Name)
                             {
                                 <tr class="gradeA">
 

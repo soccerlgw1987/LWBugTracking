@@ -22,80 +22,105 @@
     </header>
 
     <!-- start: page -->
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Created)
-        @Html.HiddenFor(model => model.ProjectId)
-        @Html.HiddenFor(model => model.OwnerUserId)
-        @Html.HiddenFor(model => model.TicketTypeId)
-        if (User.IsInRole("Developer"))
-        {
-            @Html.HiddenFor(model => model.AssignedToUserId)
-        }
 
-        <div class="form-horizontal">
-            <h4>Ticket</h4>
-            <hr />
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
+            <h2 class="panel-title">Ticket - @Model.Title</h2>
+        </header>
+        <div class="panel-body">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TicketPriorityId, "Priority", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
-                </div>
-            </div>
-            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            @using (Html.BeginForm())
             {
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TicketStatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Created)
+                @Html.HiddenFor(model => model.ProjectId)
+                @Html.HiddenFor(model => model.OwnerUserId)
+                @Html.HiddenFor(model => model.TicketTypeId)
+                if (User.IsInRole("Developer"))
+                {
+                    @Html.HiddenFor(model => model.AssignedToUserId)
+                }
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TicketPriorityId, "Priority", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TicketStatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                    }
+
+                    @{
+                        var roleHelper = new UserRolesHelper();
+                    }
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        @*<div class="form-group">
+                            <label class="col-md-3 control-label">Basic Multi-select</label>
+                            <div class="col-md-6">
+                                <select class="form-control" multiple="multiple" data-plugin-multiselect id="ms_example0">
+                                    <option value="cheese">Cheese</option>
+                                    <option value="tomatoes" selected>Tomatoes</option>
+                                    <option value="mozarella" selected>Mozzarella</option>
+                                    <option value="mushrooms">Mushrooms</option>
+                                    <option value="pepperoni">Pepperoni</option>
+                                    <option value="onions">@Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })</option>
+                                </select>
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AssignedToUserId, "Assigned Developer", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
                     </div>
                 </div>
             }
 
-            @{
-                var roleHelper = new UserRolesHelper();
-            }
-
-            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-            {
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AssignedToUserId, "Assigned Developer", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
-
-                    </div>
-                </div>
-            }
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
+            <div>
+                @Html.ActionLink("Back to List", "Index")
             </div>
+
         </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-
+    </section>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

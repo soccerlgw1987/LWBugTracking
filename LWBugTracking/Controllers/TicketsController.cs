@@ -43,7 +43,7 @@ namespace LWBugTracking.Controllers
                 return HttpNotFound();
             }
 
-            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin")  || projHelper.IsUserOnProject(User.Identity.GetUserId(),ticket.ProjectId))
             {
                 return View(ticket);
             }
@@ -66,7 +66,7 @@ namespace LWBugTracking.Controllers
                 return HttpNotFound();
             }
 
-            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(),ticket.ProjectId))
             {
                 return View(ticket);
             }
@@ -127,7 +127,7 @@ namespace LWBugTracking.Controllers
                 return HttpNotFound();
             }
 
-            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(),ticket.ProjectId))
             {
                 ViewBag.AssignedToUserId = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "FirstName", ticket.AssignedToUser);
                 ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);

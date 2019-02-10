@@ -31,24 +31,53 @@
                 <div class="col-md-8">
                     <div class="main-error mb-xlg">
                         <h2 class="error-code text-dark text-center text-semibold m-none">404 <i class="fa fa-file"></i></h2>
-                        <p class="error-explanation text-center">I'm sorry, but you dont have permission to view the page you requested. If you feel this message is in error, please contact a Project Manager.</p>
+
+                        @if (User.IsInRole("Project Manager"))
+                        {
+                            <p class="error-explanation text-center">
+                                I'm sorry, but you dont have permission to view the page you requested. If you feel this message is in error, please contact an Admin.
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="error-explanation text-center">
+                                I'm sorry, but you dont have permission to view the page you requested. If you feel this message is in error, please contact a Project Manager.
+                            </p>
+                        }
+
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h4 class="text">Project Managers</h4>
-                    <ul class="nav nav-list primary">
-                        @{ 
-                            var userRole = new UserRolesHelper();
-                        }
-                        @foreach(var user in userRole.UsersInRole("Project Manager"))
-                        {
-                            <li>
-                                <a href="#"><i class="fa fa-caret-right text-dark"></i> @user.FirstName @user.LastName</a>
-                            </li>
-                        }
-                        
-                        
-                    </ul>
+                    @if (User.IsInRole("Project Manager"))
+                    {
+                        <h4 class="text">Admin</h4>
+                        <ul class="nav nav-list primary">
+                            @{
+                                var userRole = new UserRolesHelper();
+                            }
+                            @foreach (var user in userRole.UsersInRole("Admin"))
+                            {
+                                <li>
+                                    <a href="#"><i class="fa fa-caret-right text-dark"></i> @user.FirstName @user.LastName</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <h4 class="text">Project Managers</h4>
+                        <ul class="nav nav-list primary">
+                            @{
+                                var userRole = new UserRolesHelper();
+                            }
+                            @foreach (var user in userRole.UsersInRole("Project Manager"))
+                            {
+                                <li>
+                                    <a href="#"><i class="fa fa-caret-right text-dark"></i> @user.FirstName @user.LastName</a>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
