@@ -113,7 +113,17 @@
                                 <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
                                 <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
                                 <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>*@
-                                <i class="fa fa-pencil">@Html.ActionLink(" Edit", "Edit", new { id = item.Id })</i>
+
+                                @if (projHelper.IsUserOnProject(User.Identity.GetUserId(), item.Id) && User.IsInRole("Submitter"))
+                                {
+                                    <i class="fa fa-ticket">@Html.ActionLink(" Create", "Create", "Tickets", new { id = item.Id }, null)</i>
+                                }
+
+                                @if(User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                {
+                                    <i class="fa fa-pencil">@Html.ActionLink(" Edit", "Edit", new { id = item.Id })</i>
+                                }
+                                
                             </td>
                         </tr>
                     }
@@ -127,3 +137,5 @@
             <!-- end: page -->
     </section>
 </section>
+
+

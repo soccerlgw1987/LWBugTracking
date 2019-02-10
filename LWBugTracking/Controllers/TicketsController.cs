@@ -19,6 +19,7 @@ namespace LWBugTracking.Controllers
 
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectHelper projHelper = new ProjectHelper();
+        private Project projectCreate = new Project();
 
         // GET: Tickets
         public ActionResult Index()
@@ -75,10 +76,10 @@ namespace LWBugTracking.Controllers
 
         // GET: Tickets/Create
         [Authorize(Roles = "Submitter")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Id == id), "Id", "Name");
+            //ViewBag.ProjectId = id;
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
@@ -128,7 +129,7 @@ namespace LWBugTracking.Controllers
 
             if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin"))
             {
-                ViewBag.AssignedToUser = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "FirstName", ticket.AssignedToUser);
+                ViewBag.AssignedToUserId = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "FirstName", ticket.AssignedToUser);
                 ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
                 ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
@@ -149,8 +150,8 @@ namespace LWBugTracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentStatus = db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name;
-                if (currentStatus == "New")
+                var currentStatus = ticket.TicketStatusId/* db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name*/;
+                if (currentStatus == 0)
                 {
                     ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id;
                 }

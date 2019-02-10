@@ -4,6 +4,7 @@
 @using LWBugTracking.Helper
 @using System.Web;
 @using System.Web.Configuration;
+@using Microsoft.AspNet.Identity;
 
 <section role="main" class="content-body">
     <header class="page-header">
@@ -44,8 +45,6 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("TicketId", Model.Id)
-
-
                         <div class="form-group">
                             @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -62,12 +61,12 @@
 
     <div class="inner-toolbar clearfix">
         <ul>
-            <li>
+            @*<li>
                 <a href="#" id="mgSelectAll"><i class="fa fa-check-square"></i> <span data-all-text="Select All" data-none-text="Select None">Select All</span></a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-trash-o"></i> Delete</a>
-            </li>
+            </li>*@
             <li class="right" data-sort-source data-sort-id="media-gallery">
                 <ul class="nav nav-pills nav-pills-primary">
                     <li>
@@ -174,16 +173,20 @@
                                                         <ul class="dropdown-menu mg-menu" role="menu">
                                                             @*<li>
                                                                 <i class="fa fa-download"></i>@Html.ActionLink("Download","")
-                                                            </li>*@
+                                                            </li>*@ 
                                                             <li><a id="btnDownload" href="@attachment.FilePath" download><i class="fa fa-download"></i> Download</a></li>
-                                                            @using (Html.BeginForm("Delete", "TicketAttachments", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || attachment.UserId == User.Identity.GetUserId())
                                                             {
-                                                                @Html.AntiForgeryToken()
-                                                                @Html.Hidden("TicketId", attachment.Id)
+                                                                using (Html.BeginForm("Delete", "TicketAttachments", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    @Html.Hidden("TicketId", attachment.Id)
 
-                                                                <li><button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button></li>
+                                                                    <li><button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button></li>
 
+                                                                }
                                                             }
+
                                                             @*<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>*@
                                                         </ul>
                                                     </div>

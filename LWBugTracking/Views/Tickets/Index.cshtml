@@ -72,7 +72,16 @@
                                 <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.OwnerUser.FirstName)</td>
-                                <td>@item.Updated.Value.ToString("MM/dd/yyyy")</td>
+                                @if(item.Updated > item.Created)
+                                {
+                                    <td>@item.Updated.Value.ToString("MM/dd/yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+
                                 <td class="tblTicketId">@Html.DisplayFor(modelItem => item.Id)</td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
@@ -125,7 +134,7 @@
                             <th>@Html.DisplayName("Priority")</th>
                             <th>@Html.DisplayName("Status")</th>
                             <th>@Html.DisplayName("Type")</th>
-                            <th>@Html.DisplayName("Assigned User")</th>
+                            <th>@Html.DisplayName("Assigned Developer")</th>
                             <th>@Html.DisplayName("Ticket Owner")</th>
                             <th>@Html.DisplayName("Last Updated")</th>
                             <th class="tblTicketId">@Html.DisplayName("Id")</th>
@@ -151,7 +160,14 @@
                                     <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
                                     <td>@Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.OwnerUser.FirstName)</td>
-                                    <td>@item.Updated.Value.ToString("MM/dd/yyyy")</td>
+                                    @if (item.Updated > item.Created)
+                                    {
+                                        <td>@item.Updated.Value.ToString("MM/dd/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
                                     <td class="tblTicketId">@Html.DisplayFor(modelItem => item.Id)</td>
 
                                     @if (User.IsInRole("Project Manager"))

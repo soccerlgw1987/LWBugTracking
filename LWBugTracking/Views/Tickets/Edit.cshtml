@@ -30,6 +30,10 @@
         @Html.HiddenFor(model => model.ProjectId)
         @Html.HiddenFor(model => model.OwnerUserId)
         @Html.HiddenFor(model => model.TicketTypeId)
+        if (User.IsInRole("Developer"))
+        {
+            @Html.HiddenFor(model => model.AssignedToUserId)
+        }
 
         <div class="form-horizontal">
             <h4>Ticket</h4>
@@ -74,7 +78,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.AssignedToUserId, "Assigned Developer", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("AssignedToUser", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
 
                     </div>
                 </div>

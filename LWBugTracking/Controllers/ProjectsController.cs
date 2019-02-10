@@ -54,6 +54,8 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin,Project Manager")]
         public ActionResult Create()
         {
+            ViewBag.ProjectManager = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "FirstName");
+
             return View();
         }
 
@@ -62,21 +64,28 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,CompletionDate")] Project project)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,CompletionDate")] Project project, string ProjectManager)
         {
 
             if (project.CompletionDate > DateTime.Now)
             {
+                var projUsers = new List<ApplicationUser>();
+
                 if (ModelState.IsValid)
                 {
-                    project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "New").Id;
-                    project.Created = DateTime.Now;
-                    //project.CompletionDate = project.Created.AddDays(7);
                     db.Projects.Add(project);
+                    project.Created = DateTime.Now;
+                    project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "New").Id;
+                    db.SaveChanges();
+                    projHelper.AddUserToProject(ProjectManager, project.Id);
+
+                    //project.CompletionDate = project.Created.AddDays(7);
+                    
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }
+            ViewBag.ProjectManager = new SelectList(roleHelper.UsersInRole("Project Manager"), "Id", "FirstName");
 
             return View(project);
         }
@@ -95,41 +104,46 @@ namespace LWBugTracking.Controllers
                 return HttpNotFound();
             }
 
-
-            //var projectManager = UserRolesHelper.UsersInRole("Project Manager");
-            //ViewBag.ProjectManager = new SelectList(projectManager, "Id", "DisplayName");
-            var projUsers = projHelper.UsersOnProject(id ?? 0);
-
-            string assignedPM = "";
-            string assignedSub = "";
-            List<string> assignedDevs = new List<string>();
-
-            var pms = roleHelper.UsersInRole("Project Manager");
-            foreach (var user in projUsers)
+            if(projHelper.IsUserOnProject(User.Identity.GetUserId(),project.Id) || User.IsInRole("Admin"))
             {
-                if (roleHelper.IsUserInRole(user.Id, "Project Manager"))
-                    assignedPM = user.Id;
+                //var projectManager = UserRolesHelper.UsersInRole("Project Manager");
+                //ViewBag.ProjectManager = new SelectList(projectManager, "Id", "DisplayName");
+                var projUsers = projHelper.UsersOnProject(id ?? 0);
+
+                string assignedPM = "";
+                string assignedSub = "";
+                List<string> assignedDevs = new List<string>();
+
+                var pms = roleHelper.UsersInRole("Project Manager");
+                foreach (var user in projUsers)
+                {
+                    if (roleHelper.IsUserInRole(user.Id, "Project Manager"))
+                        assignedPM = user.Id;
+                }
+                ViewBag.ProjectManager = new SelectList(pms, "Id", "Email", assignedPM);
+
+                var subs = roleHelper.UsersInRole("Submitter");
+                foreach (var user in projUsers)
+                {
+                    if (roleHelper.IsUserInRole(user.Id, "Submitter"))
+                        assignedSub = user.Id;
+                }
+                ViewBag.Submitter = new SelectList(subs, "Id", "Email", assignedSub);
+
+                var devs = roleHelper.UsersInRole("Developer");
+                foreach (var user in projUsers)
+                {
+                    if (roleHelper.IsUserInRole(user.Id, "Developer"))
+                        assignedDevs.Add(user.Id);
+                }
+                ViewBag.Developers = new MultiSelectList(devs, "Id", "Email", assignedDevs);
+
+
+                return View(project);
             }
-            ViewBag.ProjectManager = new SelectList(pms, "Id", "Email", assignedPM);
 
-            var subs = roleHelper.UsersInRole("Submitter");
-            foreach (var user in projUsers)
-            {
-                if (roleHelper.IsUserInRole(user.Id, "Submitter"))
-                    assignedSub = user.Id;
-            }
-            ViewBag.Submitter = new SelectList(subs, "Id", "Email", assignedSub);
+            return RedirectToAction("InvalidAttempt", "Home");
 
-            var devs = roleHelper.UsersInRole("Developer");
-            foreach (var user in projUsers)
-            {
-                if (roleHelper.IsUserInRole(user.Id, "Developer"))
-                    assignedDevs.Add(user.Id);
-            }
-            ViewBag.Developers = new MultiSelectList(devs, "Id", "Email", assignedDevs);
-
-
-            return View(project);
         }
 
         // POST: Projects/Edit/5
