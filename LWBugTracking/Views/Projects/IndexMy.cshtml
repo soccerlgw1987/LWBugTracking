@@ -116,7 +116,15 @@
 
                                 @if (projHelper.IsUserOnProject(User.Identity.GetUserId(), item.Id) && User.IsInRole("Submitter"))
                                 {
-                                    <i class="fa fa-ticket">@Html.ActionLink(" Create", "Create", "Tickets", new { id = item.Id }, null)</i>
+                                    if(item.ProjectStatusId == 4)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-ticket">@Html.ActionLink(" Create", "Create", "Tickets", new { id = item.Id }, null)</i>
+                                    }
+                                    
                                 }
 
                                 @if(User.IsInRole("Admin") || User.IsInRole("Project Manager"))

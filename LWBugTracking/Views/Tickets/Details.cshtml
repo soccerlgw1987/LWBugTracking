@@ -121,11 +121,16 @@
                                     Path.GetExtension(attachment.FilePath) == ".docx" ||
                                     Path.GetExtension(attachment.FilePath) == ".txt" ||
                                     Path.GetExtension(attachment.FilePath) == ".xls" ||
-                                    Path.GetExtension(attachment.FilePath) == ".xlsx")
+                                    Path.GetExtension(attachment.FilePath) == ".xlsx" ||
+                                    Path.GetExtension(attachment.FilePath) == ".DOC" ||
+                                    Path.GetExtension(attachment.FilePath) == ".DOCX" ||
+                                    Path.GetExtension(attachment.FilePath) == ".TXT" ||
+                                    Path.GetExtension(attachment.FilePath) == ".XLS" ||
+                                    Path.GetExtension(attachment.FilePath) == ".XLSX")
                                 {
                                     typeExt = "document";
                                 }
-                                else if (Path.GetExtension(attachment.FilePath) == ".pdf")
+                                else if (Path.GetExtension(attachment.FilePath) == ".pdf" || Path.GetExtension(attachment.FilePath) == ".PDF")
                                 {
                                     typeExt = "video";
                                 }

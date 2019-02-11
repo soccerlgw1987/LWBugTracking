@@ -138,6 +138,7 @@ namespace LWBugTracking.Controllers
                 }
                 ViewBag.Developers = new MultiSelectList(devs, "Id", "Email", assignedDevs);
 
+                ViewBag.ProjectStat = new SelectList(db.ProjectStatuses.Where(s => s.Status != "New").Where(s => s.Status != "Past Due!"), "Id", "Status");
 
                 return View(project);
             }
@@ -151,7 +152,7 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,CompletionDate,Created,ProjectStatusId")] Project project, string ProjectManager, string Submitter, List<string> Developers)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,CompletionDate,Created")] Project project, string ProjectManager, string Submitter, List<string> Developers, int ProjectStat)
         {
             //List all users on this project
             var projUsers = new List<ApplicationUser>();
@@ -176,13 +177,7 @@ namespace LWBugTracking.Controllers
                         projHelper.AddUserToProject(dev, project.Id);
                     }
                 }
-
-                var currentStatus = db.ProjectStatuses.FirstOrDefault(p => p.Id == project.ProjectStatusId).Status;
-                if(currentStatus == "New")
-                {
-                    project.ProjectStatusId = db.ProjectStatuses.FirstOrDefault(p => p.Status == "In Progress").Id;
-                }
-                
+                project.ProjectStatusId = ProjectStat;
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -216,6 +211,7 @@ namespace LWBugTracking.Controllers
             }
             ViewBag.Developers = new MultiSelectList(devs, "Id", "Email", assignedDevs);
 
+            ViewBag.ProjectStat = new SelectList(db.ProjectStatuses, "Id", "Status");
 
             return View(project);
         }
