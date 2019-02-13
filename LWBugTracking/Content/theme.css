@@ -11131,7 +11131,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	position: relative;
 }
 
-.thumb-info .thumb-info-title {
+/*.thumb-info*/ .thumb-info-title {
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
@@ -11149,7 +11149,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	z-index: 1;
 }
 
-.thumb-info .thumb-info-inner {
+/*.thumb-info*/ .thumb-info-inner {
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
@@ -11157,7 +11157,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	white-space: nowrap;
 }
 
-.thumb-info .thumb-info-type {
+/*.thumb-info*/ .thumb-info-type {
 	background-color: #cccccc;
 	border-radius: 2px;
 	display: inline-block;

@@ -1,57 +1,74 @@
 ﻿@model IEnumerable<LWBugTracking.Models.TicketNotification>
 
-@{
-    ViewBag.Title = "Index";
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Ticket List</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Dashboard</span></li>
+                <li><span>Tickets</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipient.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NotificationBody)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Read)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recipient.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NotificationBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Read)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Recipient.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ticket.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NotificationBody)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Read)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Recipient.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ticket.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NotificationBody)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Read)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

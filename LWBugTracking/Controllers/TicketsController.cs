@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using LWBugTracking.Helper;
@@ -26,6 +27,75 @@ namespace LWBugTracking.Controllers
         {
             var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             return View(tickets.ToList());
+        }
+
+        // GET: TicketsNotification
+        public ActionResult Notifications(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
+            {
+                return View(ticket);
+            }
+
+            return RedirectToAction("InvalidAttempt", "Home");
+        }
+
+        // GET: TicketsHistory
+        public ActionResult History(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
+            {
+                return View(ticket);
+            }
+
+            return RedirectToAction("InvalidAttempt", "Home");
+        }
+
+        // GET: TicketsDashboard
+        public ActionResult TicketsDashboard(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
+            {
+                return View(ticket);
+            }
+
+            return RedirectToAction("InvalidAttempt", "Home");
         }
 
         // GET: Tickets/Details/5/Attachments
@@ -78,12 +148,15 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Submitter")]
         public ActionResult Create(int id)
         {
-            ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Id == id), "Id", "Name");
-            //ViewBag.ProjectId = id;
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
-            return View();
+            if(projHelper.IsUserOnProject(User.Identity.GetUserId(), id))
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Id == id), "Id", "Name");
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
+                ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
+                ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+                return View();
+            }
+            return RedirectToAction("InvalidAttempt", "Home");
         }
 
         // POST: Tickets/Create
@@ -146,19 +219,30 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                var notificationHelper = new NotificationHelper();
+                var historyHelper = new HistoryHelper();
+
                 var currentStatus = ticket.TicketStatusId/* db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name*/;
                 if (currentStatus == 0)
                 {
                     ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id;
                 }
 
+                //reference old Ticket
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //compare to the incoming Ticket (ticket)
+                notificationHelper.Notify2(oldTicket,ticket);
+                historyHelper.AddHistory(oldTicket, ticket);
+
                 return RedirectToAction("Index");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);

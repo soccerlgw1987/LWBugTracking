@@ -42,6 +42,9 @@
     <link href="~/Content/summernote-bs3.css" rel="stylesheet" />
     <link href="~/Content/codemirror.css" rel="stylesheet" />
     <link href="~/Content/monokai.css" rel="stylesheet" />
+    <link href="~/Content/owl.carousel.css" rel="stylesheet" />
+    <link href="~/Content/owl.theme.css" rel="stylesheet" />
+    <link href="~/Content/pnotify.custom.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link href="~/Content/theme.css" rel="stylesheet" />
@@ -65,8 +68,9 @@
         <!-- start: header -->
         <header class="header">
             <div class="logo-container">
-                <a href="../" class="logo">
-                    <img src="~/img/logo.png" height="35" alt="JSOFT Admin" />
+                <a class="logo">
+                    LWBugTracker
+                    @*<img src="~/img/logo.png" height="35" alt="JSOFT Admin" />*@
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -396,18 +400,24 @@
                                         <span>Tickets</span>
                                     </a>
                                 </li>
-                                @*<li>
-                                    <a href="@Url.Action("Index","TicketAttachments")">
+                                <li>
+                                    <a href="@Url.Action("Index","TicketNotifications")">
                                         <i class="fa fa-ticket" aria-hidden="true"></i>
-                                        <span>TicketAttachments</span>
+                                        <span>TicketNotifications</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","TicketComments")">
+                                    <a href="@Url.Action("History","Tickets", new { id = 6})">
                                         <i class="fa fa-ticket" aria-hidden="true"></i>
-                                        <span>TicketComments</span>
+                                        <span>TicketHistory</span>
                                     </a>
-                                </li>*@
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("TicketsDashboard","Tickets", new { id = 6})">
+                                        <i class="fa fa-ticket" aria-hidden="true"></i>
+                                        <span>TicketsDashboard</span>
+                                    </a>
+                                </li>
                             </ul>
                         </nav>
 
@@ -522,6 +532,8 @@
     <script src="~/Scripts/summernote.js"></script>
     <script src="~/Scripts/bootstrap-maxlength.js"></script>
     <script src="~/Scripts/ios7-switch.js"></script>
+    <script src="~/Scripts/pnotify.custom.js"></script>
+    <script src="~/Scripts/owl.carousel.js"></script>
 
     <!-- Theme Base, Components and Settings -->
     <script src="~/Scripts/theme.js"></script>
@@ -540,6 +552,11 @@
     <script src="~/Scripts/examples.datatables.tabletools.js"></script>
     <script src="~/Scripts/examples.mediagallery.js"></script>
     <script src="~/Scripts/examples.advanced.form.js"></script>
+    <script src="~/Scripts/examples.lightbox.js"></script>
+    <script src="~/Scripts/examples.widgets.js"></script>
+    <script src="~/Scripts/examples.charts.js"></script>
+    <script src="~/Scripts/examples.notifications.js"></script>
+    <script src="~/Scripts/examples.timeline.js"></script>
 
     <script>$('#datatable-editable').DataTable();</script>
 

@@ -37,9 +37,9 @@ namespace LWBugTracking.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            EmailModel model = new EmailModel();
 
-            return View();
+            return View(model);
         }
 
         //public ActionResult Search()
@@ -47,8 +47,41 @@ namespace LWBugTracking.Controllers
         //    return View();
         //}
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Contact(EmailModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var body = "<p>Email from: <bold>{0}</bold>({1})</p><p>Message:</p><p>{2}</p>";
+                    var emailTo = ConfigurationManager.AppSettings["emailTo"];
+                    var from = string.Format("LWBugTracking<{0}>", emailTo);
+                    model.Body = model.Body;
+                    var htmlBody = new MvcHtmlString(model.Body);
+                    var email = new MailMessage(from, ConfigurationManager.AppSettings["emailto"])
+                    {
+                        Subject = model.Subject,
+                        Body = string.Format(body, model.FromEmail, model.FromEmail, htmlBody),
+                        IsBodyHtml = true
+                    };
 
-        
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+
+                    return View(new EmailModel());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    await Task.FromResult(0);
+                }
+            }
+            return View(model);
+        }
+
+
 
         public ActionResult Search(int? page, string searchStr)
         {

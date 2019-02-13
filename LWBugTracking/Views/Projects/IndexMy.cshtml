@@ -107,7 +107,23 @@
                                 }
                             </td>
                             <td>@item.CompletionDate.ToString("MM/dd/yy")</td>
-                            <td>@Html.DisplayFor(modelItem => item.ProjectStatus.Status)</td>
+
+                            @if (item.ProjectStatus.Status == "In Progress")
+                            {
+                                <td style="color:goldenrod">@Html.DisplayFor(modelItem => item.ProjectStatus.Status)</td>
+                            }
+                            else if (item.ProjectStatus.Status == "Completed")
+                            {
+                                <td style="color:green">@Html.DisplayFor(modelItem => item.ProjectStatus.Status)</td>
+                            }
+                            else if (item.ProjectStatus.Status == "Past Due!")
+                            {
+                                <td style="color:red">@Html.DisplayFor(modelItem => item.ProjectStatus.Status)</td>
+                            }
+                            else
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.ProjectStatus.Status)</td>
+                            }
                             <td class="actions">
                                 @*<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
                                 <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
@@ -116,7 +132,7 @@
 
                                 @if (projHelper.IsUserOnProject(User.Identity.GetUserId(), item.Id) && User.IsInRole("Submitter"))
                                 {
-                                    if(item.ProjectStatusId == 4)
+                                    if (item.ProjectStatusId == 4)
                                     {
 
                                     }
@@ -124,14 +140,14 @@
                                     {
                                         <i class="fa fa-ticket">@Html.ActionLink(" Create", "Create", "Tickets", new { id = item.Id }, null)</i>
                                     }
-                                    
+
                                 }
 
-                                @if(User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                                 {
                                     <i class="fa fa-pencil">@Html.ActionLink(" Edit", "Edit", new { id = item.Id })</i>
                                 }
-                                
+
                             </td>
                         </tr>
                     }

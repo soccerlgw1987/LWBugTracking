@@ -37,37 +37,39 @@
                         {
                             <img src="~/img/!logged-user.jpg" alt="John Doe" class="rounded img-responsive" />
                         }
-                        <div class="thumb-info-title">
-                            <span class="thumb-info-inner">@User.Identity.GetUserName()</span>
-                            <span class="thumb-info-type">
-                                @if (HttpContext.Current.User.IsInRole("Admin"))
-                                {
-                                    <b>Admin</b>
-                                }
-                                else if (HttpContext.Current.User.IsInRole("Project Manager"))
-                                {
-                                    <b>Project Manager</b>
-                                }
-                                else if (HttpContext.Current.User.IsInRole("Developer"))
-                                {
-                                    <b>Developer</b>
-                                }
-                                else if (HttpContext.Current.User.IsInRole("Submitter"))
-                                {
-                                    <b>Submitter</b>
-                                }
-                                else
-                                {
-                                    <b>No assigned role</b>
-                                }
-                            </span>
-                        </div>
+                        
                     </div>
-
+                    
                 </div>
             </section>
-
         </div>
+        <br />
+        <div class="thumb-info-title">
+            <span class="thumb-info-inner">@User.Identity.GetUserName()</span>
+            <span class="thumb-info-type">
+                @if (HttpContext.Current.User.IsInRole("Admin"))
+                {
+                    <b>Admin</b>
+                }
+                else if (HttpContext.Current.User.IsInRole("Project Manager"))
+                {
+                    <b>Project Manager</b>
+                }
+                else if (HttpContext.Current.User.IsInRole("Developer"))
+                {
+                    <b>Developer</b>
+                }
+                else if (HttpContext.Current.User.IsInRole("Submitter"))
+                {
+                    <b>Submitter</b>
+                }
+                else
+                {
+                    <b>No assigned role</b>
+                }
+            </span>
+        </div>
+
         <div class="col-md-8 col-lg-6">
 
             <div class="tabs">

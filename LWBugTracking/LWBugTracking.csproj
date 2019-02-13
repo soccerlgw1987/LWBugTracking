@@ -199,11 +199,14 @@
     </Compile>
     <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\FileUploadValidator.cs" />
+    <Compile Include="Helper\HistoryHelper.cs" />
+    <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\TicketHelper.cs" />
     <Compile Include="Helper\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
@@ -243,7 +246,10 @@
     <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\monokai.css" />
     <Content Include="Content\morris.css" />
+    <Content Include="Content\owl.carousel.css" />
+    <Content Include="Content\owl.theme.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pnotify.custom.css" />
     <Content Include="Content\select2.css" />
     <Content Include="Content\summernote-bs3.css" />
     <Content Include="Content\summernote.css" />
@@ -383,12 +389,17 @@
     <Content Include="Scripts\dataTables.tableTools.min.js" />
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\examples.advanced.form.js" />
+    <Content Include="Scripts\examples.charts.js" />
     <Content Include="Scripts\examples.dashboard.js" />
     <Content Include="Scripts\examples.datatables.default.js" />
     <Content Include="Scripts\examples.datatables.editable.js" />
     <Content Include="Scripts\examples.datatables.row.with.details.js" />
     <Content Include="Scripts\examples.datatables.tabletools.js" />
+    <Content Include="Scripts\examples.lightbox.js" />
     <Content Include="Scripts\examples.mediagallery.js" />
+    <Content Include="Scripts\examples.notifications.js" />
+    <Content Include="Scripts\examples.timeline.js" />
+    <Content Include="Scripts\examples.widgets.js" />
     <Content Include="Scripts\gauge.js" />
     <Content Include="Scripts\htmlmixed.js" />
     <Content Include="Scripts\ios7-switch.js" />
@@ -436,6 +447,8 @@
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\morris.js" />
     <Content Include="Scripts\nanoscroller.js" />
+    <Content Include="Scripts\owl.carousel.js" />
+    <Content Include="Scripts\pnotify.custom.js" />
     <Content Include="Scripts\raphael.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\snap.svg.js" />
@@ -558,6 +571,9 @@
     <Content Include="Uploads\Assigning users to Projects.docx" />
     <Content Include="Uploads\DataTables_030918.pdf" />
     <Content Include="Uploads\LINQ_Pocket_Reference.pdf" />
+    <Content Include="Views\Tickets\Notifications.cshtml" />
+    <Content Include="Views\Tickets\History.cshtml" />
+    <Content Include="Views\Tickets\TicketsDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

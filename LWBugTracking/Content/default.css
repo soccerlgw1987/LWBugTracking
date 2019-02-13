@@ -561,7 +561,7 @@ html .panel-primary .panel-heading {
 	border-top-color: rgba(0, 170, 255, 0.7);
 }
 /* Thumb Info */
-.thumb-info .thumb-info-type {
+/*.thumb-info*/ .thumb-info-type {
 	background-color: #0088cc;
 }
 /* Social Icons */
