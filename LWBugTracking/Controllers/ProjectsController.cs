@@ -159,6 +159,37 @@ namespace LWBugTracking.Controllers
 
             if (ModelState.IsValid)
             {
+                if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+                {
+                    if(projHelper.IsUserOnProject(User.Identity.GetUserId(),project.Id) || User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+                    {
+                        projUsers = projHelper.UsersOnProject(project.Id).ToList();
+                        //Remove all users from this project
+                        foreach (var user in projUsers.ToList())
+                        {
+                            projHelper.RemoveUserFromProject(user.Id, project.Id);
+                        }
+
+                        projHelper.AddUserToProject(ProjectManager, project.Id);
+                        projHelper.AddUserToProject(Submitter, project.Id);
+
+                        if (Developers != null)
+                        {
+                            foreach (var dev in Developers)
+                            {
+                                projHelper.AddUserToProject(dev, project.Id);
+                            }
+                        }
+                        project.ProjectStatusId = ProjectStat;
+                        db.Entry(project).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return RedirectToAction("InvalidAttempt", "Home");
+                    }
+                }
 
                 projUsers = projHelper.UsersOnProject(project.Id).ToList();
                 //Remove all users from this project
@@ -220,6 +251,11 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin,Project Manager")]
         public ActionResult Delete(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -237,6 +273,11 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
             db.SaveChanges();

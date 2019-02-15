@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LWBugTracking.Helper;
 using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
@@ -45,6 +46,11 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             return View();
         }
 
@@ -93,6 +99,11 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,DisplayName,AvatarPath,Email,SecurityStamp,PhoneNumber,PasswordHash,UserName")] ApplicationUser applicationUser, string roles)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 //since i might be changing the users role, i want to first remove from all roles
@@ -141,6 +152,11 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditMy([Bind(Include = "Id,FirstName,LastName,DisplayName,AvatarPath,Email,SecurityStamp,PhoneNumber,PasswordHash,UserName")] ApplicationUser applicationUser, string roles, HttpPostedFileBase image)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 //since i might be changing the users role, i want to first remove from all roles
@@ -169,12 +185,6 @@ namespace LWBugTracking.Controllers
             return View(applicationUser);
         }
 
-
-
-
-
-
-
         // GET: Users/Delete/5
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
@@ -196,6 +206,11 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             ApplicationUser applicationUser = db.Users.Find(id);
             db.Users.Remove(applicationUser);
             db.SaveChanges();

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LWBugTracking.Controllers
 {
@@ -16,12 +17,14 @@ namespace LWBugTracking.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketTypes
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.TicketTypes.ToList());
         }
 
         // GET: TicketTypes/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,8 +40,14 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketTypes/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             return View();
         }
 
@@ -60,8 +69,14 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketTypes/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,8 +106,14 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketTypes/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

@@ -254,8 +254,8 @@ namespace LWBugTracking.Controllers
             {
                 var notificationHelper = new NotificationHelper();
                 var historyHelper = new HistoryHelper();
+                var currentStatus = ticket.TicketStatusId;
 
-                var currentStatus = ticket.TicketStatusId/* db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name*/;
                 if (currentStatus == 0)
                 {
                     ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id;
@@ -263,6 +263,26 @@ namespace LWBugTracking.Controllers
 
                 //reference old Ticket
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+                {
+                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUser.Email == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                    {
+                        ticket.Updated = DateTime.Now;
+                        db.Entry(ticket).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //compare to the incoming Ticket (ticket)
+                        notificationHelper.Notify2(oldTicket, ticket);
+                        historyHelper.AddHistory(oldTicket, ticket);
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return RedirectToAction("InvalidAttempt", "Home");
+                    }
+                }
 
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
@@ -294,8 +314,8 @@ namespace LWBugTracking.Controllers
             {
                 var notificationHelper = new NotificationHelper();
                 var historyHelper = new HistoryHelper();
+                var currentStatus = ticket.TicketStatusId;
 
-                var currentStatus = ticket.TicketStatusId/* db.TicketStatuses.FirstOrDefault(t => t.Id == ticket.TicketStatusId).Name*/;
                 if (currentStatus == 0)
                 {
                     ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id;
@@ -303,6 +323,26 @@ namespace LWBugTracking.Controllers
 
                 //reference old Ticket
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+                {
+                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUser.Email == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                    {
+                        ticket.Updated = DateTime.Now;
+                        db.Entry(ticket).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //compare to the incoming Ticket (ticket)
+                        notificationHelper.Notify2(oldTicket, ticket);
+                        historyHelper.AddHistory(oldTicket, ticket);
+
+                        return RedirectToAction("TicketsDashboard");
+                    }
+                    else
+                    {
+                        return RedirectToAction("InvalidAttempt", "Home");
+                    }
+                }
 
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
@@ -312,7 +352,7 @@ namespace LWBugTracking.Controllers
                 notificationHelper.Notify2(oldTicket, ticket);
                 historyHelper.AddHistory(oldTicket, ticket);
 
-                return RedirectToAction("TicketsDashboard",new { id = ticket.Id});
+                return RedirectToAction("TicketsDashboard");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
@@ -327,6 +367,11 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

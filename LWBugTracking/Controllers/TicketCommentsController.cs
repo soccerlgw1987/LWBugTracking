@@ -45,6 +45,11 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
@@ -60,6 +65,29 @@ namespace LWBugTracking.Controllers
             if (ModelState.IsValid)
             {
                 var notificationHelper = new NotificationHelper();
+                var projHelper = new ProjectHelper();
+                var ticket = new Ticket();
+
+                if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+                {
+                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUser.Email == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                    {
+                        ticketComment.Created = DateTime.Now;
+                        ticketComment.UserId = User.Identity.GetUserId();
+                        db.TicketComments.Add(ticketComment);
+                        db.SaveChanges();
+
+                        notificationHelper.GetCommentNotification(ticketComment.TicketId);
+
+                        return RedirectToAction("DetailsComments", "Tickets", new { id = ticketComment.TicketId });
+                    }
+                    else
+                    {
+                        return RedirectToAction("InvalidAttempt", "Home");
+                    }
+                }
+
+                notificationHelper = new NotificationHelper();
 
                 ticketComment.Created = DateTime.Now;
                 ticketComment.UserId = User.Identity.GetUserId();
@@ -86,6 +114,29 @@ namespace LWBugTracking.Controllers
             if (ModelState.IsValid)
             {
                 var notificationHelper = new NotificationHelper();
+                var projHelper = new ProjectHelper();
+                var ticket = new Ticket();
+
+                //if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+                //{
+                //    if (ticket.AssignedToUser.Email == "devdemo@mailinator.com" || ticket.OwnerUser.Email == "subdemo@mailinator.com" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.Project.Id) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.Project.Id))
+                //    {
+                //        ticketComment.Created = DateTime.Now;
+                //        ticketComment.UserId = User.Identity.GetUserId();
+                //        db.TicketComments.Add(ticketComment);
+                //        db.SaveChanges();
+
+                //        notificationHelper.GetCommentNotification(ticketComment.TicketId);
+
+                //        return RedirectToAction("TicketsDashboard", "Tickets", new { id = ticketComment.TicketId });
+                //    }
+                //    else
+                //    {
+                //        return RedirectToAction("InvalidAttempt", "Home");
+                //    }
+                //}
+
+                notificationHelper = new NotificationHelper();
 
                 ticketComment.Created = DateTime.Now;
                 ticketComment.UserId = User.Identity.GetUserId();
@@ -103,8 +154,14 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketComments/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -141,6 +198,11 @@ namespace LWBugTracking.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
+            if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+            {
+                return RedirectToAction("InvalidAttempt", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
