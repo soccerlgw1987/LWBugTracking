@@ -26,11 +26,8 @@
 
     <!-- start: page -->
     <div class="row">
-        <div class="col-md-6">
-
-        </div>
-        <div class="col-md-6">
-
+        <div class="col-md-12">
+            <h2 class="name text-semibold" style="text-align:center">Ticket Name - @Model.Title</h2>
         </div>
     </div>
 
@@ -40,15 +37,10 @@
                 <div class="widget-twitter-profile">
                     <div class="top-image">
                         <img src="~/img/widget-twitter-profile.jpg" alt="">
-                        <h3 class="name text-semibold"> Assigned Developer - @Model.AssignedToUser.FirstName @Model.AssignedToUser.LastName</h3>
-                        <h3 class="name text-semibold">Ticket Owner - @Model.OwnerUser.FirstName @Model.OwnerUser.LastName</h3>
+                        <h3 style="padding-left:20px" class="name text-semibold"> Assigned Developer - @Model.AssignedToUser.FirstName @Model.AssignedToUser.LastName</h3>
+                        <h3 style="padding-left:20px" class="name text-semibold">Ticket Owner - @Model.OwnerUser.FirstName @Model.OwnerUser.LastName</h3>
                     </div>
                     <div class="profile-info">
-                        
-                        @*<div class="profile-account">
-                            <h3 class="name text-semibold">Assigned Developer - @Model.AssignedToUser.FirstName @Model.AssignedToUser.LastName</h3>
-                            <h3 class="name text-semibold">Ticket Owner - @Model.OwnerUser.FirstName @Model.OwnerUser.LastName</h3>
-                        </div>*@
                         <ul class="profile-stats">
                             <li>
                                 <h5 class="stat text-uppercase">Staus</h5>
@@ -71,60 +63,19 @@
                             <br />
                             Creation Date: @Model.Created.ToString("MMMM dd, yyyy h:mm tt")
                             <br />
-                            <a href="@Url.Action("Edit","Tickets",new { id = Model.Id })">Edit Ticket</a>
+                            <a href="@Url.Action("EditDash","Tickets",new { id = Model.Id })">Edit Ticket</a>
                         </div>
                     </div>
                 </div>
             </section>
-        </div>
-        <div class="col-md-6">
-
-            <section class="panel">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-
-                    <h2 class="panel-title">Attachments</h2>
-                </header>
-                <div class="panel-body">
-                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data", @class = "dropzone dz-square", id = "dropzone-example" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("TicketId", Model.Id)
-                        <div class="form-group">
-                            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("AttachmentDescription", new { htmlAttributes = new { @class = "form-control", placeholder = "Add description BEFORE uploading image" } })
-                            </div>
-                        </div>
-                    }
-                    <br />
-                    <div class="popup-gallery">
-
-                        @foreach (var attachment in Model.TicketAttachments.OrderByDescending(c => c.Created))
-                        {
-                            <a class="pull-left mb-xs mr-xs" href="@attachment.FilePath" title="@attachment.Description">
-                                <div class="img-responsive">
-                                    <img src="@attachment.FilePath" width="105">
-                                </div>
-                            </a>
-                        }
-
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
+        
             <div class="toggle" data-plugin-toggle>
                 <section class="toggle">
                     <label>Comments</label>
                     <div class="toggle-content">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal" }))
+                            using (Html.BeginForm("CreateDash", "TicketComments", FormMethod.Post, new { @class = "form-horizontal" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.Hidden("TicketId", Model.Id)
@@ -140,12 +91,12 @@
 
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <textarea name="CommentBody" class="form-control" rows="5" placeholder="Type your message"></textarea>
+                                                <textarea id="txtComment" name="CommentBody" class="form-control" rows="5" placeholder="Type your message"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <footer class="panel-footer">
-                                        <button class="btn btn-primary">Add Comment</button>
+                                        <button @*id="btnComment"*@ class="btn btn-primary">Add Comment</button>
                                     </footer>
 
                                 </section>
@@ -200,24 +151,133 @@
                                     {
                                         if (item.OldValue != item.NewValue)
                                         {
-                                            <li>
-                                                <div class="tm-info">
-                                                    <div class="tm-icon"><i class="fa fa-star"></i></div>
-                                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
-                                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
-                                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
-                                                    </time>
-                                                </div>
-                                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+                                            if (item.PropertyName == "AssignedToUserId")
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-bell"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
 
-                                                    <p>
-                                                        @item.PropertyName  changed from @item.OldValue to @item.NewValue
-                                                        <br />
-                                                        Changed by @item.User.FirstName @item.User.LastName
-                                                    </p>
+                                                        <p>
+                                                            Assigned Developer changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
 
-                                                </div>
-                                            </li>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else if (item.PropertyName == "TicketPriorityId")
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-star"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                                        <p>
+                                                            Priority changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                            else if (item.PropertyName == "TicketStatusId")
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-support"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                                        <p>
+                                                            Status changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                            else if (item.PropertyName == "TicketTypeId")
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-file"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                                        <p>
+                                                            Type changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                            else if (item.PropertyName == "Title")
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-briefcase"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                                        <p>
+                                                            Title changed from @item.OldValue to @item.NewValue
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <div class="tm-info">
+                                                        <div class="tm-icon"><i class="fa fa-book"></i></div>
+                                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                                        </time>
+                                                    </div>
+                                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                                        <p>
+                                                            Description changed from @item.OldValue to @item.NewValue
+                                                            <br />
+                                                            Changed by @item.User.FirstName @item.User.LastName
+                                                        </p>
+
+                                                    </div>
+                                                </li>
+                                            }
+
                                         }
                                     }
                                 </ol>
@@ -230,7 +290,136 @@
                 </section>
             </div>
         </div>
+
         <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+
+                    <h2 class="panel-title">Attachments</h2>
+                </header>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data", @class = "dropzone dz-square", id = "dropzone-example" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+                        <div class="form-group">
+                            <div class="col-md-10" style="padding-left:85px">
+                                @Html.Editor("AttachmentDescription", new { htmlAttributes = new { @class = "form-control", placeholder = "Add description BEFORE uploading image" } })
+                            </div>
+                        </div>
+                    }
+                    <br />
+                    <div class="popup-gallery">
+                        @{
+                            var counter = 1;
+                            var typeExt = "";
+                        }
+
+
+                        @foreach (var attachment in Model.TicketAttachments.OrderByDescending(a => a.Created))
+                        {
+                            foreach (var ext in WebConfigurationManager.AppSettings["validExtensions"].Split(','))
+                            {
+                                if (Path.GetExtension(attachment.FilePath).Contains(ext))
+                                {
+                                    typeExt = ext;
+
+                                }
+                                break;
+                            }
+
+                            if (Path.GetExtension(attachment.FilePath) == ".doc" ||
+                                Path.GetExtension(attachment.FilePath) == ".docx" ||
+                                Path.GetExtension(attachment.FilePath) == ".txt" ||
+                                Path.GetExtension(attachment.FilePath) == ".xls" ||
+                                Path.GetExtension(attachment.FilePath) == ".xlsx" ||
+                                Path.GetExtension(attachment.FilePath) == ".DOC" ||
+                                Path.GetExtension(attachment.FilePath) == ".DOCX" ||
+                                Path.GetExtension(attachment.FilePath) == ".TXT" ||
+                                Path.GetExtension(attachment.FilePath) == ".XLS" ||
+                                Path.GetExtension(attachment.FilePath) == ".XLSX")
+                            {
+                                typeExt = "document";
+                            }
+                            else if (Path.GetExtension(attachment.FilePath) == ".pdf" || Path.GetExtension(attachment.FilePath) == ".PDF")
+                            {
+                                typeExt = "video";
+                            }
+                            else
+                            {
+                                typeExt = "image";
+                            }
+
+
+                            <div class="isotope-item @(typeExt) col-sm-6 col-md-4 col-lg-3">
+                                <div class="thumbnail">
+                                    <div class="thumb-preview">
+
+                                        @if (typeExt == "document")
+                                        {
+                                            <a class="thumb-preview" href="~/img/WordDoc-pic.jpg">
+                                                <img src="~/img/WordDoc-pic.jpg" class="img-responsive" alt="Project">
+                                            </a>
+                                        }
+                                        else if (typeExt == "video")
+                                        {
+                                            <a class="thumb-preview" href="~/img/PDF-pic.png">
+                                                <img src="~/img/PDF-pic.png" class="img-responsive" alt="Project">
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="thumb-image" href="@attachment.FilePath">
+                                                <img src="@attachment.FilePath" class="img-responsive" alt="Project">
+                                            </a>
+                                        }
+
+                                        <div class="mg-thumb-options">
+                                            <div class="mg-zoom"><i class="fa fa-search"></i></div>
+                                            <div class="mg-toolbar">
+                                                
+                                                <div class="mg-group pull-right">
+                                                    <div class="btn-group dropup">
+                                                        <button class="dropdown-toggle mg-toggle" type="button" data-toggle="dropdown">
+                                                            <i class="fa fa-caret-up"></i>
+                                                        </button>
+                                                        @*<button type="button" class="mb-xs mt-xs mr-xs btn btn-default dropdown-toggle" data-toggle="dropdown">Default <span class="caret"></span></button>*@
+                                                        <ul style="position:sticky" class="dropdown-menu mg-menu" role="menu">
+                                                            <li><a id="btnDownload" href="@attachment.FilePath" download><i class="fa fa-download"></i> Download</a></li>
+                                                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || attachment.UserId == User.Identity.GetUserId())
+                                                            {
+                                                                using (Html.BeginForm("Delete", "TicketAttachments", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    @Html.Hidden("TicketId", attachment.Id)
+
+                                                                    <li><button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button></li>
+
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mg-description">
+                                        <small class="pull-left text-muted">@attachment.Description</small>
+                                        <small class="pull-right text-muted"> @attachment.Created.ToString("MM/dd/yyyy")</small>
+                                    </div>
+                                </div>
+                            </div>
+                            counter++;
+                        }
+
+                    </div>
+                </div>
+            </section>
+            <br />
+
             <section class="panel">
                 <header class="panel-heading">
                     <div class="panel-actions">
@@ -273,10 +462,8 @@
                             color: '#E36159'
                         }];
 
-                                                                                    // See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-
+                                                                // See: assets/javascripts/ui-elements/examples.charts.js for more settings.
                     </script>
-
                 </div>
             </section>
         </div>

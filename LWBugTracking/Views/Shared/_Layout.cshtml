@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
+@using LWBugTracking.Models
+@using LWBugTracking.Helper
 
 <!doctype html>
 <html class="fixed">
@@ -63,6 +65,11 @@
 
 </head>
 <body>
+
+    @{ 
+        var notificationHelper = new NotificationHelper();
+    }
+
     <section class="body">
 
         <!-- start: header -->
@@ -70,7 +77,6 @@
             <div class="logo-container">
                 <a class="logo">
                     LWBugTracker
-                    @*<img src="~/img/logo.png" height="35" alt="JSOFT Admin" />*@
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -105,10 +111,10 @@
                         </div>
                     </form>*@
 
-                @*<span class="separator"></span>*@
+                <span class="separator"></span>
 
-                @*<ul class="notifications">
-                        <li>
+                <ul class="notifications">
+                    @*<li>
                             <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                                 <i class="fa fa-tasks"></i>
                                 <span class="badge">3</span>
@@ -154,68 +160,49 @@
                                     </ul>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                                <i class="fa fa-envelope"></i>
-                                <span class="badge">4</span>
-                            </a>
+                        </li>*@
+                    
+                    <li>
+                        <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                            @if (notificationHelper.GetUnreadNotificationCount() > 0)
+                            {
+                                <span class="badge">
+                                    @notificationHelper.GetUnreadNotificationCount()
+                                </span>
+                            }
+                        </a>
 
-                            <div class="dropdown-menu notification-menu">
-                                <div class="notification-title">
-                                    <span class="pull-right label label-default">230</span>
-                                    Messages
-                                </div>
+                        <div class="dropdown-menu notification-menu">
+                            <div class="notification-title">
+                                <span class="pull-right label label-default">
+                                    @notificationHelper.GetNotificationCount()
+                                </span>
+                                Recent Messages
+                            </div>
 
-                                <div class="content">
-                                    <ul>
+                            <div class="content">
+                                <ul>
+                                    @foreach(var item in notificationHelper.GetNewNotifications().Take(3))
+                                    {
                                         <li>
                                             <a href="#" class="clearfix">
-                                                <figure class="image">
-                                                    <img src="~/img/!sample-user.jpg" alt="Joseph Doe Junior" class="img-circle" />
-                                                </figure>
-                                                <span class="title">Joseph Doe</span>
-                                                <span class="message">Lorem ipsum dolor sit.</span>
+                                                <span class="title">LWBugTracker</span>
+                                                <span class="message">@item.NotificationBody</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <figure class="image">
-                                                    <img src="~/img/!sample-user.jpg" alt="Joseph Junior" class="img-circle" />
-                                                </figure>
-                                                <span class="title">Joseph Junior</span>
-                                                <span class="message truncate">Truncated message. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac tincidunt. Quisque eget convallis diam, nec venenatis risus. Vestibulum blandit faucibus est et malesuada. Sed interdum cursus dui nec venenatis. Pellentesque non nisi lobortis, rutrum eros ut, convallis nisi. Sed tellus turpis, dignissim sit amet tristique quis, pretium id est. Sed aliquam diam diam, sit amet faucibus tellus ultricies eu. Aliquam lacinia nibh a metus bibendum, eu commodo eros commodo. Sed commodo molestie elit, a molestie lacus porttitor id. Donec facilisis varius sapien, ac fringilla velit porttitor et. Nam tincidunt gravida dui, sed pharetra odio pharetra nec. Duis consectetur venenatis pharetra. Vestibulum egestas nisi quis elementum elementum.</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <figure class="image">
-                                                    <img src="~/img/!sample-user.jpg" alt="Joe Junior" class="img-circle" />
-                                                </figure>
-                                                <span class="title">Joe Junior</span>
-                                                <span class="message">Lorem ipsum dolor sit.</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <figure class="image">
-                                                    <img src="~/img/!sample-user.jpg" alt="Joseph Junior" class="img-circle" />
-                                                </figure>
-                                                <span class="title">Joseph Junior</span>
-                                                <span class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac tincidunt. Quisque eget convallis diam.</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    }
+                                </ul>
 
-                                    <hr />
+                                <hr />
 
-                                    <div class="text-right">
-                                        <a href="#" class="view-more">View All</a>
-                                    </div>
+                                <div class="text-right">
+                                    <a href="#" class="view-more">View All</a>
                                 </div>
                             </div>
-                        </li>
-                        <li>
+                        </div>
+                    </li>
+                    @*<li>
                             <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                                 <i class="fa fa-bell"></i>
                                 <span class="badge">3</span>
@@ -265,40 +252,45 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>*@
+                        </li>*@
+                </ul>
 
                 <span class="separator"></span>
 
                 <div id="userbox" class="userbox">
                     <a href="#" data-toggle="dropdown">
                         <figure class="profile-picture">
-                            @if (User.Identity.GetUserName() == "soccerlgw1987@yahoo.com")
+                            
+                            @{
+                                var avatarPath = "";
+
+                            }
+
+                            @if (User.Identity.IsAuthenticated)
                             {
-                                <img src="~/img/HeadPic-small.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="~/img/!logged-user.jpg" />
+                                var db = new ApplicationDbContext();
+                                var userId = User.Identity.GetUserId();
+                                avatarPath = db.Users.Find(userId).AvatarPath;
+
+                                if (avatarPath == null)
+                                {
+                                    <img src="~/img/ui-bg_diagonals-thick_20_666666_40x40.png" alt="Joseph Doe" class="img-circle" data-lock-picture="~/img/!logged-user.jpg" />
+                                }
+                                else
+                                {
+                                    <img src="@avatarPath" alt="Joseph Doe" class="img-circle" data-lock-picture="~/img/!logged-user.jpg" />
+                                }
                             }
                             else
                             {
                                 <img src="~/img/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="~/img/!logged-user.jpg" />
+
                             }
 
                         </figure>
                         <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
                             <span class="name">
                                 @User.Identity.GetUserName()
-                                @*@Html.DisplayNameFor(x => x.DisplayName)
-                                    @Html.DisplayNameFor(User.Identity.Name)*@
-
-
-                                @*@{
-                                        var type = typeof(LWBugTracking.Models.ApplicationUser);
-
-                                        var memInfo = type.GetMember("FirstName"); // your member
-                                        var attributes = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false);
-                                        var displayname = ((System.ComponentModel.DataAnnotations.DisplayAttribute)attributes[0]).Name;
-
-                                    }*@
-
                             </span>
                             <span class="role">
                                 @if (HttpContext.Current.User.IsInRole("Admin"))
@@ -335,7 +327,16 @@
                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Profile","Users")"><i class="fa fa-user"></i> My Profile</a>
                             </li>
                             <li>
-                                <a role="menuitem" tabindex="-1" href="@Url.Action("Login","Account")"><i class="fa fa-power-off"></i> Logout</a>
+                                @if (User.Identity.Name == "admindemo@mailinator.com" || User.Identity.Name == "pmdemo@mailinator.com" || User.Identity.Name == "devdemo@mailinator.com" || User.Identity.Name == "subdemo@mailinator.com")
+                                {
+                                    <a role="menuitem" tabindex="-1" href="@Url.Action("LoginDemo","Account")"><i class="fa fa-power-off"></i> Logout</a>
+                                }
+                                else
+                                {
+                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Login","Account")"><i class="fa fa-power-off"></i> Logout</a>
+                                }
+
+
                             </li>
                         </ul>
                     </div>
@@ -424,18 +425,18 @@
                         <hr class="separator" />
 
                         @*<div class="sidebar-widget widget-tasks">
-                            <div class="widget-header">
-                                <h6>Tickets</h6>
-                                <div class="widget-toggle">+</div>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="list-unstyled m-none">
-                                    <li><a href="#">JSOFT HTML5 Template</a></li>
-                                    <li><a href="#">Tucson Template</a></li>
-                                    <li><a href="#">JSOFT Admin</a></li>
-                                </ul>
-                            </div>
-                        </div>*@
+                                <div class="widget-header">
+                                    <h6>Tickets</h6>
+                                    <div class="widget-toggle">+</div>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="list-unstyled m-none">
+                                        <li><a href="#">JSOFT HTML5 Template</a></li>
+                                        <li><a href="#">Tucson Template</a></li>
+                                        <li><a href="#">JSOFT Admin</a></li>
+                                    </ul>
+                                </div>
+                            </div>*@
 
                         <hr class="separator" />
                     </div>

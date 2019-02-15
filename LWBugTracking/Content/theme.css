@@ -14829,7 +14829,7 @@ html.dark .CodeMirror pre {
 .mailbox .mailbox-email-list .col-sender p {
 	left: 80px;
 	overflow: hidden;
-	position: absolute;
+	/*position: absolute;*/
 	right: 0;
 	text-overflow: ellipsis;
 	top: 0;
@@ -16519,6 +16519,8 @@ html.dark .timeline.timeline-simple .tm-body .tm-items > li .tm-box:before {
 	border: none;
 	padding: 2px 2px 2px 10px;
 	border-left: 1px solid rgba(255, 255, 255, 0.3);
+    position:relative;
+    z-index:9999;
 }
 .media-gallery .mg-files .thumbnail .mg-title {
 	margin: 13px 0 2px;
@@ -16893,3 +16895,4 @@ html.dark .thumbnail {
 	background-color: #21262d;
 	border-color: #282d36;
 }
+

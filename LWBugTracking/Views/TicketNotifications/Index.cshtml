@@ -20,6 +20,109 @@
     </header>
 
     <!-- start: page -->
+
+    <section class="content-with-menu mailbox">
+        <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+
+            <div class="inner-body mailbox-folder">
+                <!-- START: .mailbox-header -->
+                <header class="mailbox-header">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h1 class="mailbox-title text-light m-none">
+                                <a id="mailboxToggleSidebar" class="sidebar-toggle-btn trigger-toggle-sidebar">
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line line-angle1"></span>
+                                    <span class="line line-angle2"></span>
+                                </a>
+
+                                Inbox
+                            </h1>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="mailbox-compose.html" class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md">
+                                <i class="fa fa-envelope mr-xs"></i>
+                                Compose
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="search">
+                                <div class="input-group input-search">
+                                    <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- END: .mailbox-header -->
+
+                @{ 
+                    var counter = 1;
+                }
+
+                <div class="mailbox-actions">
+                    <ul class="list-unstyled m-none pt-lg pb-lg">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <li class="ib">
+                                <a class="item-action fa fa-times text-danger" href="#" type="submit" value="Delete"></a>
+                                @*<button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button>*@
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div id="mailbox-email-list" class="mailbox-email-list">
+                    <div class="nano">
+                        <div class="nano-content">
+                            <ul id="" class="list-unstyled">
+                                @foreach (var item in Model.OrderByDescending(n => n.Created))
+                                {
+                                    <li class="unread">
+                                        <a href="mailbox-email.html">
+                                            <div class="col-sender">
+                                                <div class="checkbox-custom checkbox-text-primary ib">
+                                                    <input type="checkbox" id="mail@(counter)">
+                                                    <label for="mail1"></label>
+                                                </div>
+                                                <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                            </div>
+                                            <div class="col-mail">
+                                                <p class="m-none mail-content">
+                                                    <span class="subject">@item.NotificationBody</span>
+
+                                                </p>
+                                                <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy")</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    counter++;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <br />
+    <br />
+
+
+
     <table class="table">
         <tr>
             <th>
@@ -67,6 +170,9 @@
         }
 
     </table>
+
+
+
 </section>
 
 @section Scripts {

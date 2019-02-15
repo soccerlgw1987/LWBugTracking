@@ -280,6 +280,19 @@
 		});
 	});
 
+    $("#btnComment").click(function () {
+        add_event("Comment Added", $("#txtComment").text(), "", "fa fa-home");
+    })
+
+    function add_event(title, text, type, icon) {
+        new PNotify({
+            title: title,
+            text: text,
+            type: type,
+            icon: icon
+        });
+    }
+
 	$('#custom-icon-dark').click(function() {
 		new PNotify({
 			title: 'Custom Icon',

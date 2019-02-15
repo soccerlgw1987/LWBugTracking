@@ -47,5 +47,72 @@ namespace LWBugTracking.Helper
                 }
             }
         }
+
+
+
+        //public void AddHistory(Ticket oldTicket, Ticket newTicket)
+        //{
+        //    if(oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "TicketPriority",
+        //            OldValue = oldTicket.TicketPriority.ToString(),
+        //            NewValue = newTicket.TicketPriority.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //    if (oldTicket.TicketStatusId != newTicket.TicketStatusId)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "TicketStatus",
+        //            OldValue = oldTicket.TicketStatus.ToString(),
+        //            NewValue = newTicket.TicketStatus.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //    if (oldTicket.TicketTypeId != newTicket.TicketTypeId)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "TicketType",
+        //            OldValue = oldTicket.TicketType.ToString(),
+        //            NewValue = newTicket.TicketType.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //    if (oldTicket.AssignedToUserId != newTicket.AssignedToUserId)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "AssignedToUser",
+        //            OldValue = oldTicket.AssignedToUserId.ToString(),
+        //            NewValue = newTicket.AssignedToUserId.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //}
+
     }
 }

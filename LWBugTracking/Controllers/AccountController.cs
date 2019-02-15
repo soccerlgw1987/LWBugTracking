@@ -63,6 +63,14 @@ namespace LWBugTracking.Controllers
             return View();
         }
 
+        // GET: /Account/LoginDemo
+        [AllowAnonymous]
+        public ActionResult LoginDemo(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]

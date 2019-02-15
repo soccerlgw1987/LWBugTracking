@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <footer class="panel-footer">
-                            <button class="btn btn-primary">Add Comment</button>
+                            <button @*id="btnComment"*@ class="btn btn-primary">Add Comment</button>
                         </footer>
 
                     </section>
@@ -110,3 +110,17 @@
     </section>
 </section>
 
+@*@section Scripts{ 
+
+    <script>
+        var comments = @Model.TicketComments;
+        $.each(comments, function (index, value) {
+            new PNotify({
+                title: "Comment Added",
+                text: value.CommentBody,
+                type: "",
+                icon: "fa fa-home"
+        })
+        });
+    </script>
+}*@

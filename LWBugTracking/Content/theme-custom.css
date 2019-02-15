@@ -1,1 +1,49 @@
 /* Add here all your CSS customizations */
+
+@media only screen and (min-width: 768px) {
+    html.fixed .content-with-menu-container,
+    html.fixed .inner-menu,
+    html.fixed .inner-body {
+        display: block;
+    }
+
+    html.fixed .content-with-menu-container {
+        position: relative;
+    }
+
+    html.fixed .inner-menu-toggle {
+        position: absolute;
+        top: 114px;
+        border-radius: 0 0 5px 0;
+        width: 140px;
+        z-index: 1002;
+    }
+
+    html.fixed .inner-menu {
+        bottom: 0;
+        display: block;
+        left: 300px;
+        position: fixed;
+        margin: 0;
+        top: 114px;
+        width: 300px;
+        padding: 35px;
+        z-index: 1002;
+    }
+
+    html.fixed .inner-menu-content {
+        display: block;
+    }
+
+    html.fixed .inner-body {
+        margin-left: 0px;
+        border-top: 113px solid transparent;
+        margin-top: -110px;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    html.fixed .content-with-menu-has-toolbar .inner-body {
+        border-top-width: 165px;
+    }
+}

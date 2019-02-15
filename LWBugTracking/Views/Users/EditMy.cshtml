@@ -23,7 +23,7 @@
     </header>
 
     <!-- start: page -->
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("EditMy","Users",FormMethod.Post, new { enctype = "Multipart/form-data"}))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
@@ -64,18 +64,10 @@
             <div class="form-group">
                 @Html.Label("Avatar Path", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.AvatarPath, new { htmlAttributes = new { @class = "form-control" } })
+                    <input name="image" type="file" class="form-control" id="fileUpload" />
                     @Html.ValidationMessageFor(model => model.AvatarPath, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            @*<div class="form-group">
-                    @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
 
             <div class="form-group">
                 @Html.Label("Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })

@@ -35,27 +35,136 @@
                 {
                     if (item.OldValue != item.NewValue)
                     {
-                        <li>
-                            <div class="tm-info">
-                                <div class="tm-icon"><i class="fa fa-star"></i></div>
-                                <time class="tm-datetime" datetime="2013-11-19 18:13">
-                                    <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
-                                    <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
-                                </time>
-                            </div>
-                            <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+                        if (item.PropertyName == "AssignedToUserId")
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-bell"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
 
-                                <p>
-                                    @item.PropertyName  changed from @item.OldValue to @item.NewValue
-                                    <br />
-                                    Changed by @item.User.FirstName @item.User.LastName
-                                </p>
-                                
-                            </div>
-                        </li>
+                                    <p>
+                                        Assigned Developer changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+                        else if (item.PropertyName == "TicketPriorityId")
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-star"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                    <p>
+                                        Priority changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+                        else if (item.PropertyName == "TicketStatusId")
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-support"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                    <p>
+                                        Status changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+                        else if (item.PropertyName == "TicketTypeId")
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-file"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                    <p>
+                                        Type changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+                        else if (item.PropertyName == "Title")
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-briefcase"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                    <p>
+                                        Title changed from @item.OldValue to @item.NewValue
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <div class="tm-info">
+                                    <div class="tm-icon"><i class="fa fa-book"></i></div>
+                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                    </time>
+                                </div>
+                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                    <p>
+                                        Description changed from @item.OldValue to @item.NewValue
+                                        <br />
+                                        Changed by @item.User.FirstName @item.User.LastName
+                                    </p>
+
+                                </div>
+                            </li>
+                        }
+
                     }
                 }
-                </ol>
+            </ol>
             <div class="tm-title">
                 <h3 class="h5 text-uppercase">@Model.Created.ToString("MMMM dd, yyyy - h:mm tt")</h3>
             </div>

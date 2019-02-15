@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -113,13 +114,7 @@ namespace LWBugTracking.Controllers
             return View(applicationUser);
         }
 
-
-
-
-
-
         // GET: Users/Edit/5
-
         public ActionResult EditMy(string id)
         {
             if (id == null)
@@ -144,7 +139,7 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMy([Bind(Include = "Id,FirstName,LastName,DisplayName,AvatarPath,Email,SecurityStamp,PhoneNumber,PasswordHash,UserName")] ApplicationUser applicationUser, string roles)
+        public ActionResult EditMy([Bind(Include = "Id,FirstName,LastName,DisplayName,AvatarPath,Email,SecurityStamp,PhoneNumber,PasswordHash,UserName")] ApplicationUser applicationUser, string roles, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -156,6 +151,13 @@ namespace LWBugTracking.Controllers
                 }
                 if (!string.IsNullOrEmpty(roles))
                     roleHelper.AddUserToRole(applicationUser.Id, roles);
+
+                if (FileUploadValidator.IsWebFriendlyImage(image))
+                {
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    applicationUser.AvatarPath = "/Uploads/" + fileName;
+                }
 
                 applicationUser.UserName = applicationUser.Email;
 

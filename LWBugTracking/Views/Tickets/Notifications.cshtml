@@ -30,7 +30,7 @@
 
             <div class="inner-body mailbox-folder">
                 <!-- START: .mailbox-header -->
-                <header class="mailbox-header">
+                <header  id="mailboxAlign" class="mailbox-header">
                     <div class="row">
                         <div class="col-sm-4">
                             <h1 class="mailbox-title text-light m-none">
@@ -91,22 +91,22 @@
                                 </li>*@
 
                                 @foreach(var item in Model.TicketNotifications.OrderByDescending(n => n.Created))
-                                    {
-                                        <li class="unread">
-                                            <a href="mailbox-email.html">
-                                                <div class="col-sender">
-                                                    <p class="m-none ib">@item.Recipient</p>
-                                                </div>
-                                                <div class="col-mail">
-                                                    <p class="m-none mail-content">
-                                                        <span class="subject">@item.Ticket &nbsp;–&nbsp;</span>
+                                {
+                                    <li class="unread">
+                                        <a href="mailbox-email.html">
+                                            <div class="col-sender">
+                                                <p class="m-none ib">@item.Recipient</p>
+                                            </div>
+                                            <div class="col-mail">
+                                                <p class="m-none mail-content">
+                                                    <span class="subject">@item.Ticket &nbsp;–&nbsp;</span>
 
-                                                    </p>
-                                                    <p class="m-none mail-date">@item.Created</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    }
+                                                </p>
+                                                <p class="m-none mail-date">@item.Created</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>

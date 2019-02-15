@@ -1,4 +1,5 @@
 ﻿
+@using LWBugTracking.Models
 @using Microsoft.AspNet.Identity
 @model LWBugTracking.Models.ChangePasswordViewModel
 
@@ -29,17 +30,30 @@
             <section class="panel">
                 <div class="panel-body">
                     <div class="thumb-info mb-md">
-                        @if (User.Identity.GetUserName() == "soccerlgw1987@yahoo.com")
+
+                        @{ 
+                            var avatarPath = "";
+
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <img src="~/img/HeadPic.jpg" alt="John Doe" class="rounded img-responsive" />
+                            var db = new ApplicationDbContext();
+                            var userId = User.Identity.GetUserId();
+                            avatarPath = db.Users.Find(userId).AvatarPath;
+
+                            if (avatarPath == null)
+                            {
+                                avatarPath = "/img/ui-bg_diagonals-thick_20_666666_40x40.png";
+                            }
                         }
                         else
                         {
-                            <img src="~/img/!logged-user.jpg" alt="John Doe" class="rounded img-responsive" />
+                            avatarPath = "/img/!logged-user.jpg";
+
                         }
-                        
+                        <img src="@avatarPath" alt="" class="rounded img-responsive" />
                     </div>
-                    
                 </div>
             </section>
         </div>

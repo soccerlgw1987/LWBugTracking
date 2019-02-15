@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LWBugTracking.Helper;
 using LWBugTracking.Models;
 using Microsoft.AspNet.Identity;
 
@@ -58,11 +59,42 @@ namespace LWBugTracking.Controllers
         {
             if (ModelState.IsValid)
             {
+                var notificationHelper = new NotificationHelper();
+
                 ticketComment.Created = DateTime.Now;
                 ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
+
+                notificationHelper.GetCommentNotification(ticketComment.TicketId);
+
                 return RedirectToAction("DetailsComments", "Tickets", new { id = ticketComment.TicketId });
+            }
+
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+            return View(ticketComment);
+        }
+
+        // POST: TicketComments/CreateDash
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDash([Bind(Include = "CommentBody,TicketId")] TicketComment ticketComment)
+        {
+            if (ModelState.IsValid)
+            {
+                var notificationHelper = new NotificationHelper();
+
+                ticketComment.Created = DateTime.Now;
+                ticketComment.UserId = User.Identity.GetUserId();
+                db.TicketComments.Add(ticketComment);
+                db.SaveChanges();
+
+                notificationHelper.GetCommentNotification(ticketComment.TicketId);
+
+                return RedirectToAction("TicketsDashboard", "Tickets", new { id = ticketComment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);

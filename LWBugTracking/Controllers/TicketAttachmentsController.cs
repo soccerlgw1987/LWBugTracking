@@ -59,7 +59,9 @@ namespace LWBugTracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(FileUploadValidator.IsWebFriendlyImage(file))
+                var notificationHelper = new NotificationHelper();
+
+                if (FileUploadValidator.IsWebFriendlyImage(file))
                 {
                     var fileName = Path.GetFileName(file.FileName);
                     file.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
@@ -70,6 +72,9 @@ namespace LWBugTracking.Controllers
                 ticketAttachment.Created = DateTime.Now;
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
+
+                notificationHelper.GetAttachmentNotification(ticketAttachment.TicketId);
+
                 return RedirectToAction("Details","Tickets", new { id =ticketAttachment.TicketId});
             }
 

@@ -1,7 +1,11 @@
 ﻿using LWBugTracking.Models;
+using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LWBugTracking.Helper
 {
@@ -218,6 +222,58 @@ namespace LWBugTracking.Helper
             }
         }
 
+        public int GetNotificationCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+
+            return db.TicketNotifications.Where(n => n.RecipientId == userId).Count();
+        }
+
+        public int GetUnreadNotificationCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+
+            return db.TicketNotifications.Where(n => n.RecipientId == userId && n.Read == false).Count();
+        }
+
+        public List<TicketNotification> GetNewNotifications()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+
+            return db.TicketNotifications.Where(n => n.RecipientId == userId && n.Read == false).OrderByDescending(n => n.Created).ToList();
+        }
+
+        public void GetAttachmentNotification(int ticketId)
+        {
+            var newNotification = new TicketNotification
+            {
+                TicketId = ticketId,
+                Created = DateTime.Now
+            };
+            var assignedDev = db.Tickets.Find(ticketId).AssignedToUserId;
+
+            newNotification.RecipientId = assignedDev;
+            newNotification.NotificationBody = $"An attachment has been uploaded to Ticket {ticketId}";
+            db.TicketNotifications.Add(newNotification);
+
+            db.SaveChanges();
+        }
+
+        public void GetCommentNotification(int ticketId)
+        {
+            var newNotification = new TicketNotification
+            {
+                TicketId = ticketId,
+                Created = DateTime.Now
+            };
+            var assignedDev = db.Tickets.Find(ticketId).AssignedToUserId;
+
+            newNotification.RecipientId = assignedDev;
+            newNotification.NotificationBody = $"A comment has been uploaded to Ticket {ticketId}";
+            db.TicketNotifications.Add(newNotification);
+
+            db.SaveChanges();
+        }
 
     }
 }

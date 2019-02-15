@@ -200,6 +200,7 @@
     <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\FileUploadValidator.cs" />
     <Compile Include="Helper\HistoryHelper.cs" />
+    <Compile Include="Helper\LookupData.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\TicketHelper.cs" />
@@ -459,15 +460,20 @@
     <Content Include="Scripts\theme.js" />
     <Content Include="Scripts\to-markdown.js" />
     <Content Include="Scripts\xml.js" />
+    <Content Include="Uploads\adminHead.png" />
     <Content Include="Uploads\Blog - Copy.jpg" />
     <Content Include="Uploads\BugTracker-Blog.jpg.png" />
     <Content Include="Uploads\BugTracker.jpg" />
     <Content Include="Uploads\CFlogo.jpg" />
+    <Content Include="Uploads\devHead.jpg" />
     <Content Include="Uploads\JSPic.png" />
     <Content Include="Uploads\LoL.jpg" />
     <Content Include="Uploads\MVC-Model.jpg" />
+    <Content Include="Uploads\pmHead.png" />
     <Content Include="Uploads\Qlik.jpg" />
     <Content Include="Uploads\Study_guide.txt" />
+    <Content Include="Uploads\subHead.png" />
+    <Content Include="Uploads\TicketAttachmentTest2.JPG" />
     <Content Include="Uploads\Warhammer.jpg" />
     <Content Include="Uploads\Warhammer1.jpg" />
     <Content Include="Uploads\Warhammer2.jpg" />
@@ -574,6 +580,8 @@
     <Content Include="Views\Tickets\Notifications.cshtml" />
     <Content Include="Views\Tickets\History.cshtml" />
     <Content Include="Views\Tickets\TicketsDashboard.cshtml" />
+    <Content Include="Views\Tickets\EditDash.cshtml" />
+    <Content Include="Views\Account\LoginDemo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

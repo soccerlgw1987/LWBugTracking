@@ -1,0 +1,327 @@
+﻿@{
+    Layout = null;
+}
+@using LWBugTracking.Models
+@model LoginViewModel
+
+
+<head>
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>Landon Wyant - Bug Tracker</title>
+    <meta name="keywords" content="HTML5 Admin Template" />
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/magnific-popup.css" rel="stylesheet" />
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="~/Content/theme.css" rel="stylesheet" />
+
+    <!-- Skin CSS -->
+    <link href="~/Content/default.css" rel="stylesheet" />
+
+    <!-- Theme Custom CSS -->
+    <link href="~/Content/theme-custom.css" rel="stylesheet" />
+
+    <!-- Head Libs -->
+    <script src="~/Scripts/modernizr.js"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/img/favicon.ico">
+
+</head>
+
+<!-- start: page -->
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <h1 style="text-align:center">Want to see what a role can do? Try a demo user! Or click here if you want to @Html.ActionLink("register an account", "Register") or @Html.ActionLink("login with a current account", "Login")!</h1>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-offset-2 col-md-4">
+        <section class="panel panel-group">
+            <header class="panel-heading bg-primary">
+
+                <div class="widget-profile-info">
+                    <div class="profile-picture">
+                        <img src="~/Uploads/adminHead.png">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="name text-semibold">Admin</h4>
+                        <h5 class="role">Role - Administrator</h5>
+                        <div class="profile-footer">
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <div id="accordion">
+                <div class="panel panel-accordion">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1Two">
+                                <i class="fa fa-folder-open"></i> Permissions and Log In
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1Two" class="accordion-body collapse">
+                        <div class="panel-body">
+                            <ul class="simple-user-list mb-xlg">
+                                <li>
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can assign Users to Roles</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view all Projects and their own seperately</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can create Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Project Title and Description</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can assign Users to Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view each Tickets details</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Ticket Priority, Title, Description, and Status of each Tickets</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Comments for each Ticket</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Attachments for each Ticket</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can delete Attachments for each Ticket</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can download Attachments for each Ticket</span></label> <br />
+                                </li>
+                                <li>
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.Hidden("Email", "admindemo@mailinator.com")
+                                        @Html.Hidden("Password", "Test87!")
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-sm-4 text-right">
+                                                <button type="submit" class="btn btn-primary hidden-xs">Log In</button>
+                                                <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Log In</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel panel-group">
+            <header class="panel-heading bg-primary">
+
+                <div class="widget-profile-info">
+                    <div class="profile-picture">
+                        <img src="~/Uploads/devHead.jpg">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="name text-semibold">Dev</h4>
+                        <h5 class="role">Role - Developer</h5>
+                        <div class="profile-footer">
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <div id="accordion3">
+                <div class="panel panel-accordion">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse1Two3">
+                                <i class="fa fa-folder-open"></i> Permissions and Log In
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1Two3" class="accordion-body collapse">
+                        <div class="panel-body">
+                            <ul class="simple-user-list mb-xlg">
+                                <li>
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view assigned Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can be assigned Tickets</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view Ticket details of Tickets they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Ticket Priority, Title, and Description of Tickets they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Comments for Tickets they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Attachments for Tickets they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can delete Attachments they uploaded for Tickets they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can download Attachments for Tickets they have been assigned</span></label> <br />
+                                </li>
+                                <li>
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.Hidden("Email", "devdemo@mailinator.com")
+                                        @Html.Hidden("Password", "Test87!")
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-sm-4 text-right">
+                                                <button type="submit" class="btn btn-primary hidden-xs">Log In</button>
+                                                <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Log In</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-4">
+        <section class="panel panel-group">
+            <header class="panel-heading bg-primary">
+
+                <div class="widget-profile-info">
+                    <div class="profile-picture">
+                        <img src="~/Uploads/pmHead.png">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="name text-semibold">PM</h4>
+                        <h5 class="role">Role - Project Manager</h5>
+                        <div class="profile-footer">
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <div id="accordion2">
+                <div class="panel panel-accordion">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse1Two2">
+                                <i class="fa fa-folder-open"></i> Permissions and Log In
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1Two2" class="accordion-body collapse">
+                        <div class="panel-body">
+                            <ul class="simple-user-list mb-xlg">
+                                <li>
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view all Projects and their own seperately</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can create Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Project Title and Description</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can assign Users to Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view Ticket details of Projects they are on</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Ticket Priority, Title, Description, and Status of Tickets of Projects they are on</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Comments for Tickets of Projects they are on</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Attachments for Tickets of Projects they are on</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can delete Attachments of Tickets of Projects they are on</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can download Attachments for Tickets of Projects they are on</span></label> <br />
+                                </li>
+                                <li>
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.Hidden("Email", "pmdemo@mailinator.com")
+                                        @Html.Hidden("Password", "Test87!")
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-sm-4 text-right">
+                                                <button type="submit" class="btn btn-primary hidden-xs">Log In</button>
+                                                <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Log In</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel panel-group">
+            <header class="panel-heading bg-primary">
+
+                <div class="widget-profile-info">
+                    <div class="profile-picture">
+                        <img src="~/Uploads/subHead.png">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="name text-semibold">Sub</h4>
+                        <h5 class="role">Role - Submitter</h5>
+                        <div class="profile-footer">
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <div id="accordion4">
+                <div class="panel panel-accordion">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse1Two4">
+                                <i class="fa fa-folder-open"></i> Permissions and Log In
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1Two4" class="accordion-body collapse">
+                        <div class="panel-body">
+                            <ul class="simple-user-list mb-xlg">
+                                <li>
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view assigned Projects</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can Create Tickets for Projects they have been assigned</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can view Ticket details of Tickets they created</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can edit Ticket Priority, Title, and Description of Tickets they created</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Comments for Tickets they created</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can add Attachments for Tickets they created</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can delete Attachments they uploaded for Tickets they created</span></label> <br />
+                                    <label class="todo-label"><span><i class="fa fa-circle"></i> Can download Attachments for Tickets they created</span></label> <br />
+                                </li>
+                                <li>
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.Hidden("Email", "subdemo@mailinator.com")
+                                        @Html.Hidden("Password", "Test87!")
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-sm-4 text-right">
+                                                <button type="submit" class="btn btn-primary hidden-xs">Log In</button>
+                                                <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Log In</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+</div>
+
+<div class="row">
+    <p class="text-center text-muted mt-md mb-md">&copy; Copyright 2018. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>. - Customized by Landon Wyant</p>
+</div>
+
+<!-- end: page -->
+<!-- Vendor -->
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.browser.mobile.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/nanoscroller.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/magnific-popup.js"></script>
+<script src="~/Scripts/jquery.placeholder.js"></script>
+
+<!-- Theme Base, Components and Settings -->
+<script src="~/Scripts/theme.js"></script>
+
+<!-- Theme Custom -->
+<script src="~/Scripts/theme.custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="~/Scripts/theme.init.js"></script>
