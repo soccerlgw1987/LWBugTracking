@@ -24,7 +24,6 @@ namespace LWBugTracking.Controllers
         }
 
         // GET: TicketNotifications/Details/5
-        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
@@ -99,10 +98,11 @@ namespace LWBugTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,RecipientId,NotificationBody,Created,Read")] TicketNotification ticketNotification)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,RecipientId,NotificationBody,Created,Read")] TicketNotification ticketNotification, bool notificationRead)
         {
             if (ModelState.IsValid)
             {
+                ticketNotification.Read = notificationRead;
                 db.Entry(ticketNotification).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

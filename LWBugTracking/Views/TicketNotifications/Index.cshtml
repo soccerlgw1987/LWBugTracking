@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<LWBugTracking.Models.TicketNotification>
+@using LWBugTracking.Models
+@using Microsoft.AspNet.Identity
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Ticket List</h2>
+        <h2>Notifications</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -13,6 +15,7 @@
                 </li>
                 <li><span>Dashboard</span></li>
                 <li><span>Tickets</span></li>
+                <li><span>Notifications</span></li>
             </ol>
 
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -60,119 +63,152 @@
                     </div>
                 </header>
                 <!-- END: .mailbox-header -->
-
-                @{ 
-                    var counter = 1;
-                }
-
-                <div class="mailbox-actions">
-                    <ul class="list-unstyled m-none pt-lg pb-lg">
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
-
-                            <li class="ib">
-                                <a class="item-action fa fa-times text-danger" href="#" type="submit" value="Delete"></a>
-                                @*<button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button>*@
-                            </li>
-                        }
-                    </ul>
-                </div>
-
-                <div id="mailbox-email-list" class="mailbox-email-list">
-                    <div class="nano">
-                        <div class="nano-content">
-                            <ul id="" class="list-unstyled">
-                                @foreach (var item in Model.OrderByDescending(n => n.Created))
-                                {
-                                    <li class="unread">
-                                        <a href="mailbox-email.html">
-                                            <div class="col-sender">
-                                                <div class="checkbox-custom checkbox-text-primary ib">
-                                                    <input type="checkbox" id="mail@(counter)">
-                                                    <label for="mail1"></label>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div id="mailbox-email-list" class="mailbox-email-list">
+                        <div class="nano">
+                            <div class="nano-content">
+                                <ul id="" class="list-unstyled">
+                                    @foreach (var item in Model.OrderByDescending(n => n.Created))
+                                    {
+                                        if (item.Read)
+                                        {
+                                            <li>
+                                                <div class="col-sender">
+                                                    <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
                                                 </div>
-                                                <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
-                                            </div>
-                                            <div class="col-mail">
-                                                <p class="m-none mail-content">
-                                                    <span class="subject">@item.NotificationBody</span>
-
-                                                </p>
-                                                <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy")</p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    counter++;
-                                }
-                            </ul>
+                                                <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
+                                                    <div class="col-mail">
+                                                        <p class="m-none mail-content">
+                                                            <span class="subject">@item.NotificationBody</span>
+                                                        </p>
+                                                        <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy h:mm tt")</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="unread">
+                                                <div class="col-sender">
+                                                    <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                </div>
+                                                <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
+                                                    <div class="col-mail">
+                                                        <p class="m-none mail-content">
+                                                            <span class="subject">@item.NotificationBody</span>
+                                                        </p>
+                                                        <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy h:mm tt")</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div id="mailbox-email-list" class="mailbox-email-list">
+                        <div class="nano">
+                            <div class="nano-content">
+                                <ul id="" class="list-unstyled">
+                                    @foreach (var item in Model.OrderByDescending(n => n.Created))
+                                    {
+                                        if (item.RecipientId == User.Identity.GetUserId())
+                                        {
+                                            if (item.Read)
+                                            {
+                                                <li>
+                                                    <div class="col-sender">
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Edit", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("Id", item.Id)
+                                                                @Html.Hidden("TicketId", item.TicketId)
+                                                                @Html.Hidden("RecipientId", item.RecipientId)
+                                                                @Html.Hidden("NotificationBody", item.NotificationBody)
+                                                                @Html.Hidden("Created", item.Created)
+                                                                @Html.Hidden("notificationRead", false)
 
+                                                                <button class="fa fa-check text-success" type="submit"></button>
+                                                            }
+                                                        </div>
 
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Delete", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("id", item.Id)
+
+                                                                <button class="fa fa-times text-danger" type="submit"></button>
+                                                            }
+                                                        </div>
+                                                        <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    </div>
+                                                    <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
+                                                        <div class="col-mail">
+                                                            <p class="m-none mail-content">
+                                                                <span class="subject">@item.NotificationBody</span>
+                                                            </p>
+                                                            <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy h:mm tt")</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="unread">
+                                                    <div class="col-sender">
+                                                        <div class="checkbox-custom checkbox-text-primary ib">
+                                                            @using (Html.BeginForm("Edit", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("Id", item.Id)
+                                                                @Html.Hidden("TicketId", item.TicketId)
+                                                                @Html.Hidden("RecipientId", item.RecipientId)
+                                                                @Html.Hidden("NotificationBody", item.NotificationBody)
+                                                                @Html.Hidden("Created", item.Created)
+                                                                @Html.Hidden("notificationRead", true)
+
+                                                                <button class="fa fa-check text-info" type="submit"></button>
+                                                            }
+                                                        </div>
+
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Delete", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("id", item.Id)
+
+                                                                <button class="fa fa-times text-danger" type="submit"></button>
+                                                            }
+                                                        </div>
+                                                        <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    </div>
+                                                    <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
+                                                        <div class="col-mail">
+                                                            <p class="m-none mail-content">
+                                                                <span class="subject">@item.NotificationBody</span>
+                                                            </p>
+                                                            <p class="m-none mail-date">@item.Created.ToString("MM/dd/yy h:mm tt")</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </section>
-
-
-
-
-    <br />
-    <br />
-
-
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Recipient.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ticket.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NotificationBody)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Read)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ticket.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NotificationBody)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Read)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-
-    </table>
-
-
-
 </section>
 
 @section Scripts {

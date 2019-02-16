@@ -27,8 +27,8 @@ namespace LWBugTracking.Helper
                 var oldTicketProp = oldTicket.GetType().GetProperty(propObj1.Name);
                 var newTicketProp = newTicket.GetType().GetProperty(propObj1.Name);
 
-                var oldPropValue = propObj1.GetValue(oldTicket, null);
-                var newPropValue = propObj1.GetValue(newTicket, null);
+                var oldPropValue = oldTicketProp.GetValue(oldTicket, null);
+                var newPropValue = newTicketProp.GetValue(newTicket, null);
 
                 if (oldPropValue != newPropValue)
                 {

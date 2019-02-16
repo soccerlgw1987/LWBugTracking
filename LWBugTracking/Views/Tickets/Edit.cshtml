@@ -41,7 +41,7 @@
                 @Html.HiddenFor(model => model.ProjectId)
                 @Html.HiddenFor(model => model.OwnerUserId)
                 @Html.HiddenFor(model => model.TicketTypeId)
-                if (User.IsInRole("Developer"))
+                if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
                 {
                     @Html.HiddenFor(model => model.AssignedToUserId)
                 }

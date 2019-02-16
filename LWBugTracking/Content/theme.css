@@ -3862,7 +3862,7 @@ input.input-rounded {
 /* Form - Custom Checkbox */
 .checkbox-custom {
 	position: relative;
-	padding: 0 0 0 25px;
+	padding: 0 0 0 5px;
 	margin-bottom: 7px;
 	margin-top: 0;
 }
@@ -14772,7 +14772,7 @@ html.dark .CodeMirror pre {
 	border-bottom: 1px solid #f7f7f7;
 	height: 50px;
 	line-height: 50px;
-	padding: 0 40px;
+	/*padding: 0 40px;*/
 	position: relative;
 }
 @media only screen and (max-width: 767px) {
@@ -14787,9 +14787,9 @@ html.dark .CodeMirror pre {
 .mailbox .mailbox-email-list li:hover {
 	background: #FAFAFA;
 }
-.mailbox .mailbox-email-list li.unread a {
+.mailbox .mailbox-email-list li.unread {
 	color: #555;
-	font-weight: 500;
+	font-weight: 600;
 }
 .mailbox .mailbox-email-list li.active {
 	background: #cccccc;
@@ -14815,7 +14815,7 @@ html.dark .CodeMirror pre {
 	}
 }
 .mailbox .mailbox-email-list .col-sender {
-	float: left;
+	/*float: left;*/
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 250px;
@@ -14860,7 +14860,7 @@ html.dark .CodeMirror pre {
 	top: 0;
 }
 .mailbox .mailbox-email-list .col-mail .mail-content {
-	left: 0;
+	left: 85px;
 	right: 140px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -14888,7 +14888,7 @@ html.dark .CodeMirror pre {
 	}
 }
 .mailbox .mailbox-email-list .col-mail .mail-date {
-	padding-left: 80px;
+	/*padding-left: 80px;*/
 	right: 0;
 	width: 150px;
 }
@@ -14939,7 +14939,7 @@ html.boxed .mailbox .mailbox-email-list .nano .nano-content {
 		position: absolute;
 		right: 0;
 		overflow: hidden;
-		top: 191px;
+		top: 120px;
 	}
 }
 /* Mailbox - Email */

@@ -1,7 +1,7 @@
 ﻿
 @model LWBugTracking.Models.Ticket
 @using LWBugTracking.Helper
-
+@using Microsoft.AspNet.Identity
 
 <section role="main" class="content-body">
     <header class="page-header">
@@ -32,7 +32,13 @@
                     <div class="main-error mb-xlg">
                         <h2 class="error-code text-dark text-center text-semibold m-none">404 <i class="fa fa-file"></i></h2>
 
-                        @if (User.IsInRole("Project Manager"))
+                        @if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+                        {
+                            <p class="error-explanation text-center">
+                                I'm sorry, but demo users are restriced to only making changes to demo projects and tickets. They cannot modify any core database records. If you feel this message is in error, please contact an Admin.
+                            </p>
+                        }
+                        else if (User.IsInRole("Project Manager"))
                         {
                             <p class="error-explanation text-center">
                                 I'm sorry, but you dont have permission to view the page you requested. If you feel this message is in error, please contact an Admin.
@@ -48,7 +54,16 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    @if (User.IsInRole("Project Manager"))
+                    @if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996" || User.Identity.GetUserId() == "3eaa1491-7553-40fa-b7e1-b994e05d05e0" || User.Identity.GetUserId() == "5f84068f-4213-4d02-81a4-21936ae10cdc" || User.Identity.GetUserId() == "60f316c5-536c-4f06-83d3-38a555febc29")
+                    {
+                        <h4 class="text">Admin</h4>
+                        <ul class="nav nav-list primary">
+                                <li>
+                                    <a href="#"><i class="fa fa-caret-right text-dark"></i> Landon Wyant</a>
+                                </li>
+                        </ul>
+                    }
+                    else if (User.IsInRole("Project Manager"))
                     {
                         <h4 class="text">Admin</h4>
                         <ul class="nav nav-list primary">

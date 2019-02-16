@@ -176,9 +176,6 @@
                                                             <i class="fa fa-caret-up"></i>
                                                         </button>
                                                         <ul class="dropdown-menu mg-menu" role="menu">
-                                                            @*<li>
-                                                                <i class="fa fa-download"></i>@Html.ActionLink("Download","")
-                                                            </li>*@ 
                                                             <li><a id="btnDownload" href="@attachment.FilePath" download><i class="fa fa-download"></i> Download</a></li>
                                                             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || attachment.UserId == User.Identity.GetUserId())
                                                             {
@@ -188,11 +185,8 @@
                                                                     @Html.Hidden("TicketId", attachment.Id)
 
                                                                     <li><button type="submit" class="btn btn-link"><i class="fa fa-trash-o"></i> Delete</button></li>
-
                                                                 }
                                                             }
-
-                                                            @*<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>*@
                                                         </ul>
                                                     </div>
                                                 </div>

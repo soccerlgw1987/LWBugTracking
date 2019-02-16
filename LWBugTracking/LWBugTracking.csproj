@@ -466,6 +466,7 @@
     <Content Include="Uploads\BugTracker.jpg" />
     <Content Include="Uploads\CFlogo.jpg" />
     <Content Include="Uploads\devHead.jpg" />
+    <Content Include="Uploads\HeadPic.jpg" />
     <Content Include="Uploads\JSPic.png" />
     <Content Include="Uploads\LoL.jpg" />
     <Content Include="Uploads\MVC-Model.jpg" />
@@ -582,6 +583,7 @@
     <Content Include="Views\Tickets\TicketsDashboard.cshtml" />
     <Content Include="Views\Tickets\EditDash.cshtml" />
     <Content Include="Views\Account\LoginDemo.cshtml" />
+    <Content Include="Uploads\SRS - %28MVC%29 BugTracker.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
