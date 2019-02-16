@@ -65,13 +65,12 @@ namespace LWBugTracking.Controllers
         {
             var notificationHelper = new NotificationHelper();
             var projHelper = new ProjectHelper();
-            var ticket = new Ticket();
 
             if (ModelState.IsValid)
             {
                 //if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
                 //{
-                //    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUser.Email == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                //    if (ticketAttachment.Ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticketAttachment.Ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29")
                 //    {
                 //        if (FileUploadValidator.IsWebFriendlyImage(file))
                 //        {
@@ -184,7 +183,25 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int TicketId)
         {
+            var notificationHelper = new NotificationHelper();
+            var projHelper = new ProjectHelper();
+            var ticket = new Ticket();
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(TicketId);
+
+            //if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
+            //{
+            //    if (ticketAttachment.Ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticketAttachment.Ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29")
+            //    {
+            //        db.TicketAttachments.Remove(ticketAttachment);
+            //        db.SaveChanges();
+            //        return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
+            //    }
+            //    else
+            //    {
+            //        return RedirectToAction("InvalidAttempt", "Home");
+            //    }
+            //}
+
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
             return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });

@@ -29,29 +29,6 @@ namespace LWBugTracking.Controllers
             return View(tickets.ToList());
         }
 
-        // GET: TicketsNotification
-        public ActionResult Notifications(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            //var ticket = db.Tickets.AsNoTracking().Include(t => t.TicketAttachments).Where(t => t.Id == id).FirstOrDefault();
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (ticket.AssignedToUserId == User.Identity.GetUserId() || ticket.OwnerUser.Email == User.Identity.Name || User.IsInRole("Admin") || projHelper.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
-            {
-                return View(ticket);
-            }
-
-            return RedirectToAction("InvalidAttempt", "Home");
-        }
-
         // GET: TicketsHistory
         public ActionResult History(int? id)
         {
@@ -266,7 +243,7 @@ namespace LWBugTracking.Controllers
 
                 if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
                 {
-                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29")
                     {
                         ticket.Updated = DateTime.Now;
                         db.Entry(ticket).State = EntityState.Modified;
@@ -326,7 +303,7 @@ namespace LWBugTracking.Controllers
 
                 if (User.Identity.GetUserId() == "db9a774b-807c-4b9b-9b22-34c191872996")
                 {
-                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29" || projHelper.IsUserOnProject("3eaa1491-7553-40fa-b7e1-b994e05d05e0", ticket.ProjectId) || projHelper.IsUserOnProject("db9a774b-807c-4b9b-9b22-34c191872996", ticket.ProjectId))
+                    if (ticket.AssignedToUserId == "5f84068f-4213-4d02-81a4-21936ae10cdc" || ticket.OwnerUserId == "60f316c5-536c-4f06-83d3-38a555febc29")
                     {
                         ticket.Updated = DateTime.Now;
                         db.Entry(ticket).State = EntityState.Modified;

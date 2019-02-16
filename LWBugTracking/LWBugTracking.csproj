@@ -578,7 +578,6 @@
     <Content Include="Uploads\Assigning users to Projects.docx" />
     <Content Include="Uploads\DataTables_030918.pdf" />
     <Content Include="Uploads\LINQ_Pocket_Reference.pdf" />
-    <Content Include="Views\Tickets\Notifications.cshtml" />
     <Content Include="Views\Tickets\History.cshtml" />
     <Content Include="Views\Tickets\TicketsDashboard.cshtml" />
     <Content Include="Views\Tickets\EditDash.cshtml" />

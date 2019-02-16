@@ -208,7 +208,17 @@ namespace LWBugTracking.Controllers
                         projHelper.AddUserToProject(dev, project.Id);
                     }
                 }
-                project.ProjectStatusId = ProjectStat;
+
+                if(ProjectStat.ToString() == "2" && project.CompletionDate < DateTime.Now)
+                {
+                    int projPast = 3;
+                    project.ProjectStatusId = projPast;
+                }
+                else
+                {
+                    project.ProjectStatusId = ProjectStat;
+                }
+                
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
