@@ -14,7 +14,6 @@
                     </a>
                 </li>
                 <li><span>Dashboard</span></li>
-                <li><span>Tickets</span></li>
                 <li><span>Notifications</span></li>
             </ol>
 
@@ -45,7 +44,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-4">
-                            <a href="mailbox-compose.html" class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md">
+                            <a href="@Url.Action("Create","TicketNotifications")" class="btn btn-block btn-primary btn-md pt-sm pb-sm text-md">
                                 <i class="fa fa-envelope mr-xs"></i>
                                 Compose
                             </a>
@@ -75,7 +74,38 @@
                                         {
                                             <li>
                                                 <div class="col-sender">
-                                                    <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    @if (item.RecipientId == User.Identity.GetUserId())
+                                                    {
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Edit", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("Id", item.Id)
+                                                                @Html.Hidden("TicketId", item.TicketId)
+                                                                @Html.Hidden("RecipientId", item.RecipientId)
+                                                                @Html.Hidden("NotificationBody", item.NotificationBody)
+                                                                @Html.Hidden("Created", item.Created)
+                                                                @Html.Hidden("notificationRead", false)
+
+                                                                <button class="fa fa-check text-success" type="submit"></button>
+                                                            }
+                                                        </div>
+
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Delete", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("id", item.Id)
+
+                                                                <button class="fa fa-times text-danger" type="submit"></button>
+                                                            }
+                                                        </div>
+                                                        <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="m-none ib" style="padding-left:77px">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    }
                                                 </div>
                                                 <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
                                                     <div class="col-mail">
@@ -91,7 +121,38 @@
                                         {
                                             <li class="unread">
                                                 <div class="col-sender">
-                                                    <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    @if (item.RecipientId == User.Identity.GetUserId())
+                                                    {
+                                                        <div class="checkbox-custom checkbox-text-primary ib">
+                                                            @using (Html.BeginForm("Edit", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("Id", item.Id)
+                                                                @Html.Hidden("TicketId", item.TicketId)
+                                                                @Html.Hidden("RecipientId", item.RecipientId)
+                                                                @Html.Hidden("NotificationBody", item.NotificationBody)
+                                                                @Html.Hidden("Created", item.Created)
+                                                                @Html.Hidden("notificationRead", true)
+
+                                                                <button class="fa fa-check text-info" type="submit"></button>
+                                                            }
+                                                        </div>
+
+                                                        <div class="checkbox-custom ib">
+                                                            @using (Html.BeginForm("Delete", "TicketNotifications", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.Hidden("id", item.Id)
+
+                                                                <button class="fa fa-times text-danger" type="submit"></button>
+                                                            }
+                                                        </div>
+                                                        <p class="m-none ib">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="m-none ib" style="padding-left:77px">@item.Recipient.FirstName @item.Recipient.LastName</p>
+                                                    }
                                                 </div>
                                                 <a href="@Url.Action("Details","TicketNotifications", new { id = item.Id})">
                                                     <div class="col-mail">

@@ -1,0 +1,114 @@
+﻿@model LWBugTracking.Models.ProjectTable
+
+<section class="panel">
+    <header class="panel-heading panel-heading-transparent">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Projects Stats</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped mb-none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Project Title</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.Projects.OrderBy(c => c.CompletionDate).Where(s => s.ProjectStatus.Status != "Completed"))
+                    {
+                        <tr>
+                            <td>@project.Id</td>
+                            <td>@project.Name</td>
+                            @if (project.ProjectStatus.Status == "Past Due!")
+                            {
+                                <td><span class="label label-danger">@project.ProjectStatus.Status</span></td>
+                            }
+                            else if (project.ProjectStatus.Status == "In Progress")
+                            {
+                                <td><span class="label label-warning">@project.ProjectStatus.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="label label-primary">@project.ProjectStatus.Status</span></td>
+                            }
+                            <td>@project.CompletionDate.ToString("M/dd/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <header class="panel-heading panel-heading-transparent">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Ticket Stats</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped mb-none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ticket Title</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.Tickets.OrderBy(c => c.Id).Where(s => s.TicketStatus.Name != "Complete"))
+                    {
+                        <tr>
+                            <td>@ticket.Id</td>
+                            <td>@ticket.Title</td>
+                            @if (ticket.TicketStatus.Name == "Awaiting User")
+                            {
+                                <td><span class="label label-danger">@ticket.TicketStatus.Name</span></td>
+                            }
+                            else if (ticket.TicketStatus.Name == "New")
+                            {
+                                <td><span class="label label-success">@ticket.TicketStatus.Name</span></td>
+                            }
+                            else if (ticket.TicketStatus.Name == "In Progress")
+                            {
+                                <td><span class="label label-warning">@ticket.TicketStatus.Name</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="label label-info">@ticket.TicketStatus.Name</span></td>
+                            }
+
+                            @if (ticket.TicketPriority.Name == "Urgent")
+                            {
+                                <td><span class="label label-danger">@ticket.TicketPriority.Name</span></td>
+                            }
+                            else if (ticket.TicketPriority.Name == "Medium")
+                            {
+                                <td><span class="label label-warning">@ticket.TicketPriority.Name</span></td>
+                            }
+                            else if (ticket.TicketPriority.Name == "High")
+                            {
+                                <td><span class="label label-danger">@ticket.TicketPriority.Name</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="label label-info">@ticket.TicketPriority.Name</span></td>
+                            }
+                        </tr>
+                            
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

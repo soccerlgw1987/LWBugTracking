@@ -58,6 +58,9 @@ namespace LWBugTracking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TicketId,RecipientId,NotificationBody,Created,Read")] TicketNotification ticketNotification)
         {
+            //Use to check model state for errors
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (ModelState.IsValid)
             {
                 db.TicketNotifications.Add(ticketNotification);
