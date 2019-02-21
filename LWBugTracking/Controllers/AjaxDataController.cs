@@ -79,10 +79,29 @@ namespace LWBugTracking.Controllers
             return Json(dataBar);
         }
 
+        public JsonResult GetStackedBarChartData()
+        {
+            var dataChart = new List<DoubleChart>();
+            var roleHelper = new UserRolesHelper();
+
+            foreach (var item in roleHelper.UsersInRole("Project Manager"))
+            {
+                dataChart.Add(new DoubleChart
+                {
+                    y = item.FirstName,
+                    a = item.Projects.Where(s => s.ProjectStatusId == 2).Count() + item.Projects.Where(s => s.ProjectStatusId == 1).Count(),
+                    b = item.Projects.Where(s => s.ProjectStatusId == 3).Count()
+                });
+            }
+
+            return Json(dataChart);
+        }
+
         public JsonResult GetDoubleLineChartData()
         {
             var dataChart = new List<DoubleChart>();
             var roleHelper = new UserRolesHelper();
+            var ticketHelper = new Ticket();
 
             foreach (var item in roleHelper.UsersInRole("Developer"))
             {
@@ -90,9 +109,10 @@ namespace LWBugTracking.Controllers
                 {
                     y = item.FirstName,
                     a = item.Projects.Where(s => s.ProjectStatusId != 4).Count(),
-                    b = db.Tickets.Where(s => s.TicketStatusId != 5).Count()
+                    b = db.Tickets.Where(s => s.TicketStatusId != 5 && s.AssignedToUser.FirstName == item.FirstName).Count()
                 });
             }
+            //db.Tickets.Where(s => s.TicketStatusId != 5).Count()
 
             return Json(dataChart);
         }
@@ -113,6 +133,24 @@ namespace LWBugTracking.Controllers
             }
 
             return Json(dataBar);
+        }
+
+        public string GetProjectUnassignedStatus()
+        {
+            var total = db.Projects.Where(s => s.ProjectStatusId != 4).Count();
+            var test = db.Projects.Where(a => a.ProjectStatusId == 1).Count();
+            var percent = decimal.Round(decimal.Divide(test,total) *100);
+
+            return percent.ToString();
+        }
+
+        public string GetTicketUnassignedStatus()
+        {
+            var total = db.Tickets.Where(s => s.TicketStatusId != 5).Count();
+            var test = db.Tickets.Where(a => a.TicketStatusId == 1).Count();
+            var percent = decimal.Round(decimal.Divide(test, total) * 100);
+
+            return percent.ToString();
         }
     }
 }

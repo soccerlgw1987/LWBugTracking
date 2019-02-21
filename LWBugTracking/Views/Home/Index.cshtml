@@ -23,108 +23,6 @@
     <div class="row">
         <div class="col-md-6 col-lg-12 col-xl-6">
             @Html.Partial("_MultiChart", ProjectTableHelper.GetProjectTableData())
-
-            @*<section class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="chart-data-selector" id="salesSelectorWrapper">
-                                    <h2>
-                                        Sales:
-                                        <strong>
-                                            <select class="form-control" id="salesSelector">
-                                                <option value="JSOFT Admin" selected>Project Status</option>
-                                                <option value="JSOFT Drupal">Ticket Priorities</option>
-                                                <option value="JSOFT Wordpress">Ticket Types</option>
-                                            </select>
-                                        </strong>
-                                    </h2>
-
-                                    <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
-                                        <!-- Flot: Sales JSOFT Admin -->
-                                        <div class="chart chart-sm" data-sales-rel="JSOFT Admin" id="flotDashSales1" class="chart-active"></div>
-                                        <script>
-
-                                            var flotDashSales1Data = [{
-                                                data: [
-                                                    ["Jan", 140],
-                                                    ["Feb", 240],
-                                                    ["Mar", 190],
-                                                    ["Apr", 140],
-                                                    ["May", 180],
-                                                    ["Jun", 320],
-                                                    ["Jul", 270],
-                                                    ["Aug", 180]
-                                                ],
-                                                color: "#0088cc"
-                                            }];
-
-                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                        </script>
-
-                                        <!-- Flot: Sales JSOFT Drupal -->
-                                        <div class="chart chart-sm" data-sales-rel="JSOFT Drupal" id="flotDashSales2" class="chart-hidden"></div>
-                                        <script>
-
-                                            var flotDashSales2Data = [{
-                                                data: [
-                                                    ["Jan", 240],
-                                                    ["Feb", 240],
-                                                    ["Mar", 290],
-                                                    ["Apr", 540],
-                                                    ["May", 480],
-                                                    ["Jun", 220],
-                                                    ["Jul", 170],
-                                                    ["Aug", 190]
-                                                ],
-                                                color: "#2baab1"
-                                            }];
-
-                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                        </script>
-
-                                        <!-- Flot: Sales JSOFT Wordpress -->
-                                        <div class="chart chart-sm" data-sales-rel="JSOFT Wordpress" id="flotDashSales3" class="chart-hidden"></div>
-                                        <script>
-
-                                            var flotDashSales3Data = [{
-                                                data: [
-                                                    ["Jan", 840],
-                                                    ["Feb", 740],
-                                                    ["Mar", 690],
-                                                    ["Apr", 940],
-                                                    ["May", 1180],
-                                                    ["Jun", 820],
-                                                    ["Jul", 570],
-                                                    ["Aug", 780]
-                                                ],
-                                                color: "#734ba9"
-                                            }];
-
-                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                        </script>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-4 text-center">
-                                <h2 class="panel-title mt-md">Completed</h2>
-                                <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
-                                    <div class="liquid-meter">
-                                        <meter min="0" max="100" value="35" id="meterSales"></meter>
-                                    </div>
-                                    <div class="liquid-meter-selector" id="meterSalesSel">
-                                        <a href="#" data-val="35" class="active">Projects</a>
-                                        <a href="#" data-val="28">Tickets</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>*@
         </div>
         <div class="col-md-6 col-lg-12 col-xl-6">
 
@@ -139,66 +37,6 @@
             @Html.Partial("_ChartsAdmin", ProjectTableHelper.GetProjectTableData())
 
             @Html.Partial("_TicketTable", ProjectTableHelper.GetProjectTableData())
-        
-            <section class="panel">
-				<header class="panel-heading">
-					<div class="panel-actions">
-						<a href="#" class="fa fa-caret-down"></a>
-					</div>
-						
-					<h2 class="panel-title">Line Chart</h2>
-					<p class="panel-subtitle">A style of chart that is created by connecting a series of data points together with a line.</p>
-				</header>
-				<div class="panel-body">
-						
-					<!-- Morris: Line -->
-					<div class="chart chart-md" id="morrisLine"></div>
-					@*<script type="text/javascript">
-						
-						var morrisLineData = [{
-							y: '2006',
-							a: 100,
-							b: 90
-						}, {
-							y: '2007',
-							a: 75,
-							b: 65
-						}, {
-							y: '2008',
-							a: 50,
-							b: 40
-						}, {
-							y: '2009',
-							a: 75,
-							b: 65
-						}, {
-							y: '2010',
-							a: 50,
-							b: 40
-						}, {
-							y: '2011',
-							a: 75,
-							b: 65
-						}, {
-							y: '2012',
-							a: 100,
-							b: 90
-						}, {
-							y: '2013',
-							a: 75,
-							b: 65
-						}, {
-							y: '2014',
-							a: 100,
-							b: 90
-						}];
-						
-						// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-						
-					</script>*@
-						
-				</div>
-			</section>
         </div>
         <div class="col-xl-6 col-lg-12">
 
@@ -211,6 +49,26 @@
 @section scripts
 {
     <script>
+        var urlDoubleLine = '@Url.Action("GetStackedBarChartData", "AjaxData")';
+        $.post(urlDoubleLine).then(function (response) {
+            $('#morrisStacked').empty();
+            new Morris.Bar({
+                resize: true,
+                element: 'morrisStacked',
+                data: response,
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                labels: ['New/In Progress', 'Over Due!'],
+                barColors: ['#0088cc', '#FF0000'],
+                fillOpacity: 0.7,
+                smooth: false,
+                stacked: true,
+                hideHover: true
+            });
+        });
+    </script>
+
+    <script>
         var urlDoubleLine = '@Url.Action("GetDoubleLineChartData", "AjaxData")';
         $.post(urlDoubleLine).then(function (response) {
             $('#morrisLine').empty();
@@ -220,13 +78,14 @@
                 data: response,
                 xkey: 'y',
                 ykeys: ['a', 'b'],
-                labels: ['Series A', 'Series B'],
+                labels: ['Projects', 'Tickets'],
                 hideHover: true,
+                parseTime: false,
                 lineColors: ['#0088cc', '#734ba9'],
             });
         });
     </script>
-    
+
     <script>
         var urlLine = '@Url.Action("GetLineChartData", "AjaxData")';
         $.post(urlLine).then(function (response) {
@@ -271,7 +130,7 @@
                     defaultTheme: false
                 },
                 colors: ["#734ba9"]
-                
+
             });
         });
     </script>

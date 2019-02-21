@@ -19,46 +19,46 @@
 	/*
 	Flot: Sales 1
 	*/
-	var flotDashSales1 = $.plot('#flotDashSales1', flotDashSales1Data, {
-		series: {
-			lines: {
-				show: true,
-				lineWidth: 2
-			},
-			points: {
-				show: true
-			},
-			shadowSize: 0
-		},
-		grid: {
-			hoverable: true,
-			clickable: true,
-			borderColor: 'rgba(0,0,0,0.1)',
-			borderWidth: 1,
-			labelMargin: 15,
-			backgroundColor: 'transparent'
-		},
-		yaxis: {
-			min: 0,
-			color: 'rgba(0,0,0,0.1)'
-		},
-		xaxis: {
-			mode: 'categories',
-			color: 'rgba(0,0,0,0)'
-		},
-		legend: {
-			show: false
-		},
-		tooltip: true,
-		tooltipOpts: {
-			content: '%x: %y',
-			shifts: {
-				x: -30,
-				y: 25
-			},
-			defaultTheme: false
-		}
-	});
+	//var flotDashSales1 = $.plot('#flotDashSales1', flotDashSales1Data, {
+	//	series: {
+	//		lines: {
+	//			show: true,
+	//			lineWidth: 2
+	//		},
+	//		points: {
+	//			show: true
+	//		},
+	//		shadowSize: 0
+	//	},
+	//	grid: {
+	//		hoverable: true,
+	//		clickable: true,
+	//		borderColor: 'rgba(0,0,0,0.1)',
+	//		borderWidth: 1,
+	//		labelMargin: 15,
+	//		backgroundColor: 'transparent'
+	//	},
+	//	yaxis: {
+	//		min: 0,
+	//		color: 'rgba(0,0,0,0.1)'
+	//	},
+	//	xaxis: {
+	//		mode: 'categories',
+	//		color: 'rgba(0,0,0,0)'
+	//	},
+	//	legend: {
+	//		show: false
+	//	},
+	//	tooltip: true,
+	//	tooltipOpts: {
+	//		content: '%x: %y',
+	//		shifts: {
+	//			x: -30,
+	//			y: 25
+	//		},
+	//		defaultTheme: false
+	//	}
+	//});
 
 	/*
 	Flot: Sales 2
