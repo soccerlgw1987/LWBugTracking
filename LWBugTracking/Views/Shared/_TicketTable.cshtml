@@ -1,0 +1,47 @@
+﻿@model LWBugTracking.Models.ProjectTable
+@using LWBugTracking.Helper
+
+@{
+    var notificationHelper = new NotificationHelper();
+}
+
+<section class="panel panel-transparent">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Additional Ticket Info</h2>
+    </header>
+    <div class="panel-body">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="small-chart pull-right" id="sparklineBarDash"></div>
+                <div class="h4 text-bold mb-none">@Model.TicketComments.Count()</div>
+                <p class="text-xs text-muted mb-none">Ticket Comments</p>
+            </div>
+        </section>
+        
+        <section class="panel">
+            <div class="panel-body">
+                <div class="circular-bar circular-bar-xs m-none mt-xs mr-md pull-right">
+                    <div class="circular-bar-chart" data-percent="@notificationHelper.GetNotificationCountTotal()" data-plugin-options='{ "barColor": "#2baab1", "delay": 300, "size": 50, "lineWidth": 4 }'>
+                        <strong>Average</strong>
+                        <label><span class="percent">@notificationHelper.GetNotificationCountTotal()</span>%</label>
+                    </div>
+                </div>
+                <div class="h4 text-bold mb-none">@notificationHelper.GetUnreadNotificationCountTotal()</div>
+                <p class="text-xs text-muted mb-none">Unread Notifications</p>
+                <div class="h4 text-bold mb-none">@notificationHelper.GetReadNotificationCountTotal()</div>
+                <p class="text-xs text-muted mb-none">Read Notifications</p>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="panel-body">
+                <div class="small-chart pull-right" id="sparklineLineDash"></div>
+                <div class="h4 text-bold mb-none">@Model.TicketAttachments.Count()</div>
+                <p class="text-xs text-muted mb-none">Ticket Attachments</p>
+            </div>
+        </section>
+    </div>
+</section>

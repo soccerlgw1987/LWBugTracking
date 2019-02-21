@@ -22,107 +22,109 @@
     <!-- start: page -->
     <div class="row">
         <div class="col-md-6 col-lg-12 col-xl-6">
-            <section class="panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="chart-data-selector" id="salesSelectorWrapper">
-                                <h2>
-                                    Sales:
-                                    <strong>
-                                        <select class="form-control" id="salesSelector">
-                                            <option value="JSOFT Admin" selected>JSOFT Admin</option>
-                                            <option value="JSOFT Drupal">JSOFT Drupal</option>
-                                            <option value="JSOFT Wordpress">JSOFT Wordpress</option>
-                                        </select>
-                                    </strong>
-                                </h2>
+            @Html.Partial("_MultiChart", ProjectTableHelper.GetProjectTableData())
 
-                                <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
-                                    <!-- Flot: Sales JSOFT Admin -->
-                                    <div class="chart chart-sm" data-sales-rel="JSOFT Admin" id="flotDashSales1" class="chart-active"></div>
-                                    <script>
+            @*<section class="panel">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="chart-data-selector" id="salesSelectorWrapper">
+                                    <h2>
+                                        Sales:
+                                        <strong>
+                                            <select class="form-control" id="salesSelector">
+                                                <option value="JSOFT Admin" selected>Project Status</option>
+                                                <option value="JSOFT Drupal">Ticket Priorities</option>
+                                                <option value="JSOFT Wordpress">Ticket Types</option>
+                                            </select>
+                                        </strong>
+                                    </h2>
 
-                                                    var flotDashSales1Data = [{
-                                                        data: [
-                                                            ["Jan", 140],
-                                                            ["Feb", 240],
-                                                            ["Mar", 190],
-                                                            ["Apr", 140],
-                                                            ["May", 180],
-                                                            ["Jun", 320],
-                                                            ["Jul", 270],
-                                                            ["Aug", 180]
-                                                        ],
-                                                        color: "#0088cc"
-                                                    }];
+                                    <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
+                                        <!-- Flot: Sales JSOFT Admin -->
+                                        <div class="chart chart-sm" data-sales-rel="JSOFT Admin" id="flotDashSales1" class="chart-active"></div>
+                                        <script>
 
-                                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+                                            var flotDashSales1Data = [{
+                                                data: [
+                                                    ["Jan", 140],
+                                                    ["Feb", 240],
+                                                    ["Mar", 190],
+                                                    ["Apr", 140],
+                                                    ["May", 180],
+                                                    ["Jun", 320],
+                                                    ["Jul", 270],
+                                                    ["Aug", 180]
+                                                ],
+                                                color: "#0088cc"
+                                            }];
 
-                                    </script>
+                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
 
-                                    <!-- Flot: Sales JSOFT Drupal -->
-                                    <div class="chart chart-sm" data-sales-rel="JSOFT Drupal" id="flotDashSales2" class="chart-hidden"></div>
-                                    <script>
+                                        </script>
 
-                                                    var flotDashSales2Data = [{
-                                                        data: [
-                                                            ["Jan", 240],
-                                                            ["Feb", 240],
-                                                            ["Mar", 290],
-                                                            ["Apr", 540],
-                                                            ["May", 480],
-                                                            ["Jun", 220],
-                                                            ["Jul", 170],
-                                                            ["Aug", 190]
-                                                        ],
-                                                        color: "#2baab1"
-                                                    }];
+                                        <!-- Flot: Sales JSOFT Drupal -->
+                                        <div class="chart chart-sm" data-sales-rel="JSOFT Drupal" id="flotDashSales2" class="chart-hidden"></div>
+                                        <script>
 
-                                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+                                            var flotDashSales2Data = [{
+                                                data: [
+                                                    ["Jan", 240],
+                                                    ["Feb", 240],
+                                                    ["Mar", 290],
+                                                    ["Apr", 540],
+                                                    ["May", 480],
+                                                    ["Jun", 220],
+                                                    ["Jul", 170],
+                                                    ["Aug", 190]
+                                                ],
+                                                color: "#2baab1"
+                                            }];
 
-                                    </script>
+                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
 
-                                    <!-- Flot: Sales JSOFT Wordpress -->
-                                    <div class="chart chart-sm" data-sales-rel="JSOFT Wordpress" id="flotDashSales3" class="chart-hidden"></div>
-                                    <script>
+                                        </script>
 
-                                                    var flotDashSales3Data = [{
-                                                        data: [
-                                                            ["Jan", 840],
-                                                            ["Feb", 740],
-                                                            ["Mar", 690],
-                                                            ["Apr", 940],
-                                                            ["May", 1180],
-                                                            ["Jun", 820],
-                                                            ["Jul", 570],
-                                                            ["Aug", 780]
-                                                        ],
-                                                        color: "#734ba9"
-                                                    }];
+                                        <!-- Flot: Sales JSOFT Wordpress -->
+                                        <div class="chart chart-sm" data-sales-rel="JSOFT Wordpress" id="flotDashSales3" class="chart-hidden"></div>
+                                        <script>
 
-                                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+                                            var flotDashSales3Data = [{
+                                                data: [
+                                                    ["Jan", 840],
+                                                    ["Feb", 740],
+                                                    ["Mar", 690],
+                                                    ["Apr", 940],
+                                                    ["May", 1180],
+                                                    ["Jun", 820],
+                                                    ["Jul", 570],
+                                                    ["Aug", 780]
+                                                ],
+                                                color: "#734ba9"
+                                            }];
 
-                                    </script>
+                                            // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+
+                                        </script>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="col-lg-4 text-center">
-                            <h2 class="panel-title mt-md">Sales Goal</h2>
-                            <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
-                                <div class="liquid-meter">
-                                    <meter min="0" max="100" value="35" id="meterSales"></meter>
-                                </div>
-                                <div class="liquid-meter-selector" id="meterSalesSel">
-                                    <a href="#" data-val="35" class="active">Monthly Goal</a>
-                                    <a href="#" data-val="28">Annual Goal</a>
+                            <div class="col-lg-4 text-center">
+                                <h2 class="panel-title mt-md">Completed</h2>
+                                <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
+                                    <div class="liquid-meter">
+                                        <meter min="0" max="100" value="35" id="meterSales"></meter>
+                                    </div>
+                                    <div class="liquid-meter-selector" id="meterSalesSel">
+                                        <a href="#" data-val="35" class="active">Projects</a>
+                                        <a href="#" data-val="28">Tickets</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>*@
         </div>
         <div class="col-md-6 col-lg-12 col-xl-6">
 
@@ -131,165 +133,229 @@
 
     <div class="row">
         <div class="col-xl-3 col-lg-6">
-            
             @Html.Partial("_ProjectTable", ProjectTableHelper.GetProjectTableData())
-        
-            @*<section class="panel">
-                <header class="panel-heading panel-heading-transparent">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-
-                    <h2 class="panel-title">Ticket Stats</h2>
-                </header>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-none">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Project Title</th>
-                                    <th>Status</th>
-                                    <th>Ticket %</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>JSOFT - Responsive HTML5 Template</td>
-                                    <td><span class="label label-success">Success</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                100%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>JSOFT - Responsive Drupal 7 Theme</td>
-                                    <td><span class="label label-success">Success</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                100%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Tucson - Responsive HTML5 Template</td>
-                                    <td><span class="label label-warning">Warning</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>JSOFT - Responsive HTML5 Template</td>
-                                    <td><span class="label label-danger">Danger</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-                                                40%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>*@
         </div>
         <div class="col-xl-3 col-lg-6">
-            <section class="panel panel-transparent">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
+            @Html.Partial("_ChartsAdmin", ProjectTableHelper.GetProjectTableData())
 
-                    <h2 class="panel-title">My Stats</h2>
-                </header>
-                <div class="panel-body">
-                    <section class="panel">
-                        <div class="panel-body">
-                            <div class="small-chart pull-right" id="sparklineBarDash"></div>
-                            <script type="text/javascript">
-                                var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
-                            </script>
-                            <div class="h4 text-bold mb-none">488</div>
-                            <p class="text-xs text-muted mb-none">Average Profile Visits</p>
-                        </div>
-                    </section>
-                    <section class="panel">
-                        <div class="panel-body">
-                            <div class="circular-bar circular-bar-xs m-none mt-xs mr-md pull-right">
-                                <div class="circular-bar-chart" data-percent="45" data-plugin-options='{ "barColor": "#2baab1", "delay": 300, "size": 50, "lineWidth": 4 }'>
-                                    <strong>Average</strong>
-                                    <label><span class="percent">45</span>%</label>
-                                </div>
-                            </div>
-                            <div class="h4 text-bold mb-none">12</div>
-                            <p class="text-xs text-muted mb-none">Working Projects</p>
-                        </div>
-                    </section>
-                    <section class="panel">
-                        <div class="panel-body">
-                            <div class="small-chart pull-right" id="sparklineLineDash"></div>
-                            <script type="text/javascript">
-                                var sparklineLineDashData = [15, 16, 17, 19, 10, 15, 13, 12, 12, 14, 16, 17];
-                            </script>
-                            <div class="h4 text-bold mb-none">89</div>
-                            <p class="text-xs text-muted mb-none">Pending Tasks</p>
-                        </div>
-                    </section>
-                </div>
-            </section>
-
+            @Html.Partial("_TicketTable", ProjectTableHelper.GetProjectTableData())
+        
             <section class="panel">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-
-                    <h2 class="panel-title">Donut Chart</h2>
-                    <p class="panel-subtitle">Donut Chart are functionally identical to pie charts.</p>
-                </header>
-                <div class="panel-body">
-
-                    <!-- Morris: Donut -->
-                    <div class="chart chart-md" id="morrisDonut"></div>
-                    <script type="text/javascript">
-
-                        var morrisDonutData = [{
-                            label: "Porto Template",
-                            value: 32
-                        }, {
-                            label: "Tucson Template",
-                            value: 18
-                        }, {
-                            label: "Porto Admin",
-                            value: 20
-                        }];
-
-                                                                // See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-
-                    </script>
-
-                </div>
-            </section>
+				<header class="panel-heading">
+					<div class="panel-actions">
+						<a href="#" class="fa fa-caret-down"></a>
+					</div>
+						
+					<h2 class="panel-title">Line Chart</h2>
+					<p class="panel-subtitle">A style of chart that is created by connecting a series of data points together with a line.</p>
+				</header>
+				<div class="panel-body">
+						
+					<!-- Morris: Line -->
+					<div class="chart chart-md" id="morrisLine"></div>
+					@*<script type="text/javascript">
+						
+						var morrisLineData = [{
+							y: '2006',
+							a: 100,
+							b: 90
+						}, {
+							y: '2007',
+							a: 75,
+							b: 65
+						}, {
+							y: '2008',
+							a: 50,
+							b: 40
+						}, {
+							y: '2009',
+							a: 75,
+							b: 65
+						}, {
+							y: '2010',
+							a: 50,
+							b: 40
+						}, {
+							y: '2011',
+							a: 75,
+							b: 65
+						}, {
+							y: '2012',
+							a: 100,
+							b: 90
+						}, {
+							y: '2013',
+							a: 75,
+							b: 65
+						}, {
+							y: '2014',
+							a: 100,
+							b: 90
+						}];
+						
+						// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
+						
+					</script>*@
+						
+				</div>
+			</section>
         </div>
         <div class="col-xl-6 col-lg-12">
-          
+
         </div>
     </div>
 
     <!-- end: page -->
 </section>
+
+@section scripts
+{
+    <script>
+        var urlDoubleLine = '@Url.Action("GetDoubleLineChartData", "AjaxData")';
+        $.post(urlDoubleLine).then(function (response) {
+            $('#morrisLine').empty();
+            new Morris.Line({
+                resize: true,
+                element: 'morrisLine',
+                data: response,
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                labels: ['Series A', 'Series B'],
+                hideHover: true,
+                lineColors: ['#0088cc', '#734ba9'],
+            });
+        });
+    </script>
+    
+    <script>
+        var urlLine = '@Url.Action("GetLineChartData", "AjaxData")';
+        $.post(urlLine).then(function (response) {
+            $('#flotDashSales3').empty();
+            $.plot('#flotDashSales3', [response], {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2
+                    },
+                    points: {
+                        show: true
+                    },
+                    shadowSize: 0
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    borderColor: 'rgba(0,0,0,0.1)',
+                    borderWidth: 1,
+                    labelMargin: 15,
+                    backgroundColor: 'transparent'
+                },
+                yaxis: {
+                    min: 0,
+                    color: 'rgba(0,0,0,0.1)'
+                },
+                xaxis: {
+                    mode: 'categories',
+                    color: 'rgba(0,0,0,0)'
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: '%x: %y',
+                    shifts: {
+                        x: -30,
+                        y: 25
+                    },
+                    defaultTheme: false
+                },
+                colors: ["#734ba9"]
+                
+            });
+        });
+    </script>
+
+    <script>
+        var urlDonut = '@Url.Action("GetDonutChartData", "AjaxData")';
+        $.post(urlDonut).then(function (response) {
+            $('#morrisDonut').empty();
+            new Morris.Donut({
+                resize: true,
+                element: 'morrisDonut',
+                data: response,
+                colors: ['#0088cc', '#FFD700', '#E36159']
+            });
+        })
+    </script>
+
+    <script>
+        var urlBar = '@Url.Action("GetBarChartData", "AjaxData")';
+        $.post(urlBar).then(function (response) {
+            $('#flotBars').empty();
+            $.plot('#flotBars', [response], {
+                colors: ['#8CC9E8', '#FF4500'],
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.8,
+                        align: 'center'
+                    }
+                },
+                xaxis: {
+                    mode: 'categories',
+                    tickLength: 0
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    borderColor: 'rgba(0,0,0,0.1)',
+                    borderWidth: 1,
+                    labelMargin: 15,
+                    backgroundColor: 'transparent'
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: '%y',
+                    shifts: {
+                        x: -10,
+                        y: 20
+                    },
+                    defaultTheme: false
+                }
+            });
+        });
+    </script>
+
+    <script>
+        var urlSparkBar = '@Url.Action("GetSparkBarChartData", "AjaxData")';
+        $.post(urlSparkBar).then(function (response) {
+            $('#sparklineBarDash').empty();
+            var sparklineBarDashOptions = {
+                type: 'bar',
+                width: '80',
+                height: '55',
+                barColor: '#0088cc',
+                negBarColor: '#B20000'
+            };
+
+            $("#sparklineBarDash").sparkline(response, sparklineBarDashOptions);
+        })
+    </script>
+
+    <script>
+        var urlSparkLine = '@Url.Action("GetSparkLineChartData", "AjaxData")';
+        $.post(urlSparkLine).then(function (response) {
+            $('#sparklineLineDash').empty();
+            var sparklineLineDashOptions = {
+                type: 'bar',
+                width: '80',
+                height: '55',
+                barColor: '#0088cc',
+                negBarColor: '#B20000'
+            };
+
+            $("#sparklineLineDash").sparkline(response, sparklineLineDashOptions);
+        })
+    </script>
+}

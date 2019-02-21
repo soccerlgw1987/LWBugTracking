@@ -69,6 +69,8 @@
     @{
         var notificationHelper = new NotificationHelper();
         var ticketHelper = new Ticket();
+        var projectHelper = new ProjectHelper();
+        var projectList = new ProjectTable();
     }
 
     <section class="body">
@@ -181,57 +183,95 @@
                             </div>
                         </div>
                     </li>
-                    @*<li>
-                            <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                                <i class="fa fa-bell"></i>
-                                <span class="badge">3</span>
-                            </a>
+                    <li>
+                        <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i>
+                            @if (@projectHelper.ListUserProjects(User.Identity.GetUserId()).Where(s => s.ProjectStatus.Status != "Completed" && s.CompletionDate <= DateTime.Now.AddDays(-2)).Count() > 0)
+                            {
+                                <span class="badge">@projectHelper.ListUserProjects(User.Identity.GetUserId()).Where(s => s.ProjectStatus.Status != "Completed" && s.CompletionDate <= DateTime.Now.AddDays(-2)).Count()</span>
+                            }
+                        </a>
 
-                            <div class="dropdown-menu notification-menu">
-                                <div class="notification-title">
-                                    <span class="pull-right label label-default">3</span>
-                                    Alerts
-                                </div>
+                        <div class="dropdown-menu notification-menu">
+                            <div class="notification-title">
+                                <span class="pull-right label label-default"></span>
+                                Alerts
+                            </div>
 
-                                <div class="content">
-                                    <ul>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <div class="image">
-                                                    <i class="fa fa-thumbs-down bg-danger"></i>
-                                                </div>
-                                                <span class="title">Server is Down!</span>
-                                                <span class="message">Just now</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <div class="image">
-                                                    <i class="fa fa-lock bg-warning"></i>
-                                                </div>
-                                                <span class="title">User Locked</span>
-                                                <span class="message">15 minutes ago</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="clearfix">
-                                                <div class="image">
-                                                    <i class="fa fa-signal bg-success"></i>
-                                                </div>
-                                                <span class="title">Connection Restaured</span>
-                                                <span class="message">10/10/2014</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                            <div class="content">
+                                <ul>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        foreach (var item in projectHelper.ListUserProjects(User.Identity.GetUserId()).Where(s => s.ProjectStatus.Status != "Completed"))
+                                        {
+                                            if (item.CompletionDate < DateTime.Now)
+                                            {
+                                                <li>
+                                                    <div class="image">
+                                                        <i class="fa fa-exclamation bg-danger"></i>
+                                                    </div>
+                                                    <span class="title">Overdue!</span>
+                                                    <span class="message">Project: @item.Name</span>
+                                                    <span class="message">Due: @item.CompletionDate.ToString("M/dd/yyyy")</span>
+                                                </li>
+                                            }
+                                            else if (item.CompletionDate <= DateTime.Now.AddDays(-2))
+                                            {
+                                                <li>
+                                                    <div class="image">
+                                                        <i class="fa fa-lock bg-warning"></i>
+                                                    </div>
+                                                    <span class="title">Approaching Completion Date</span>
+                                                    <span class="message">Project: @item.Name</span>
+                                                    <span class="message">Due: @item.CompletionDate.ToString("M/dd/yyyy")</span>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in projectHelper.ListUserProjects(User.Identity.GetUserId()).Where(s => s.ProjectStatus.Status != "Completed"))
+                                        {
+                                            if (item.CompletionDate < DateTime.Now)
+                                            {
+                                                <li>
+                                                    <div class="image">
+                                                        <i class="fa fa-exclamation bg-danger"></i>
+                                                    </div>
+                                                    <span class="title">Overdue!</span>
+                                                    <span class="message">Project: @item.Name</span>
+                                                    <span class="message">Due: @item.CompletionDate.ToString("M/dd/yyyy")</span>
+                                                </li>
+                                            }
+                                            else if (item.CompletionDate <= DateTime.Now.AddDays(-2))
+                                            {
+                                                <li>
+                                                    <div class="image">
+                                                        <i class="fa fa-lock bg-warning"></i>
+                                                    </div>
+                                                    <span class="title">Approaching Completion Date</span>
+                                                    <span class="message">Project: @item.Name</span>
+                                                    <span class="message">Due: @item.CompletionDate.ToString("M/dd/yyyy")</span>
+                                                </li>
+                                            }
+                                        }
+                                    }
 
-                                    <hr />
-
-                                    <div class="text-right">
-                                        <a href="#" class="view-more">View All</a>
-                                    </div>
+                                </ul>
+                                <hr />
+                                <div class="text-right">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a href="@Url.Action("Index","Projects")" class="view-more">View All</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("IndexMy","Projects")" class="view-more">View All</a>
+                                    }
                                 </div>
                             </div>
-                        </li>*@
+                        </div>
+                    </li>
                 </ul>
 
                 <span class="separator"></span>
@@ -533,7 +573,7 @@
     <script src="~/Scripts/examples.mediagallery.js"></script>
     <script src="~/Scripts/examples.advanced.form.js"></script>
     <script src="~/Scripts/examples.lightbox.js"></script>
-    <script src="~/Scripts/examples.widgets.js"></script>
+    @*<script src="~/Scripts/examples.widgets.js"></script>*@
     <script src="~/Scripts/examples.charts.js"></script>
     <script src="~/Scripts/examples.notifications.js"></script>
     <script src="~/Scripts/examples.timeline.js"></script>

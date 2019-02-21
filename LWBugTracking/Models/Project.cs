@@ -15,7 +15,6 @@ namespace LWBugTracking.Models
         public DateTime Created { get; set; }
         public DateTime CompletionDate { get; set; }
         
-
         public virtual ProjectStatus ProjectStatus { get; set; }
 
         public virtual ICollection<Ticket> Tickets { get; set; }

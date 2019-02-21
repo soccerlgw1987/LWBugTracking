@@ -181,6 +181,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AjaxDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Helper\FileUploadValidator.cs" />
     <Compile Include="Helper\HistoryHelper.cs" />
     <Compile Include="Helper\LookupData.cs" />
+    <Compile Include="Helper\MorrisChartHelper.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\ProjectTableHelper.cs" />
@@ -208,9 +210,11 @@
     <Compile Include="Helper\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DoubleChart.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MorrisChartData.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
     <Compile Include="Models\ProjectTable.cs" />
@@ -586,10 +590,17 @@
     <Content Include="Views\Account\LoginDemo.cshtml" />
     <Content Include="Uploads\SRS - %28MVC%29 BugTracker.pdf" />
     <Content Include="Views\Shared\_ProjectTable.cshtml" />
+    <Content Include="Views\Home\IndexPM.cshtml" />
+    <Content Include="Views\Home\IndexDev.cshtml" />
+    <Content Include="Views\Home\IndexSub.cshtml" />
+    <Content Include="Views\Shared\_TicketTable.cshtml" />
+    <Content Include="Views\Shared\_ChartsAdmin.cshtml" />
+    <Content Include="Views\Shared\_MultiChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="font\" />
+    <Folder Include="Views\AjaxData\" />
     <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>

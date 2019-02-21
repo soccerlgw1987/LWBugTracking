@@ -236,6 +236,25 @@ namespace LWBugTracking.Helper
             return db.TicketNotifications.Where(n => n.RecipientId == userId && n.Read == false).Count();
         }
 
+        public int GetUnreadNotificationCountTotal()
+        {
+            return db.TicketNotifications.Where(n => n.Read == false).Count();
+        }
+
+        public int GetReadNotificationCountTotal()
+        {
+            return db.TicketNotifications.Where(n => n.Read == true).Count();
+        }
+
+        public string GetNotificationCountTotal()
+        {
+            var total = GetReadNotificationCountTotal() + GetUnreadNotificationCountTotal();
+            var test = GetReadNotificationCountTotal();
+            var percent = decimal.Divide(test,total) * 100;
+
+            return percent.ToString();
+        }
+
         public List<TicketNotification> GetNewNotifications()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();

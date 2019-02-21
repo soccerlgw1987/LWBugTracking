@@ -1,0 +1,33 @@
+﻿@model LWBugTracking.Models.ProjectTable
+@using LWBugTracking.Helper
+@using LWBugTracking.Controllers
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Project Statuses</h2>
+    </header>
+    <div class="panel-body">
+        <div class="chart chart-md" id="morrisDonut"></div>
+
+    </div>
+</section>
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Ticket Statuses</h2>
+    </header>
+    <div class="panel-body">
+
+        <!-- Flot: Bars -->
+        <div class="chart chart-md" id="flotBars"></div>
+        
+    </div>
+</section>

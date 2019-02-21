@@ -18,7 +18,26 @@ namespace LWBugTracking.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //Admin
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        //ProjectManager
+        public ActionResult IndexPM()
+        {
+            return View();
+        }
+
+        //Developer
+        public ActionResult IndexDev()
+        {
+            return View();
+        }
+
+        //Submitter
+        public ActionResult IndexSub()
         {
             return View();
         }
