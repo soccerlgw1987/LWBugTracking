@@ -15,7 +15,6 @@ namespace LWBugTracking.Helper
 
         public void AddHistory(Ticket oldTicket, Ticket newTicket)
         {
-
             foreach (var propObj1 in newTicket.GetType().GetProperties())
             {
                 //If the current property is NOT one of the properties I am interested in then move on...
@@ -29,6 +28,11 @@ namespace LWBugTracking.Helper
 
                 var oldPropValue = oldTicketProp.GetValue(oldTicket, null);
                 var newPropValue = newTicketProp.GetValue(newTicket, null);
+
+                if(oldPropValue == null)
+                {
+                    oldPropValue = "e3212997-a371-4fe4-a15b-332aca39d797";
+                }
 
                 if (oldPropValue != newPropValue)
                 {
@@ -52,7 +56,7 @@ namespace LWBugTracking.Helper
 
         //public void AddHistory(Ticket oldTicket, Ticket newTicket)
         //{
-        //    if(oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
+        //    if (oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
         //    {
         //        var history = new TicketHistory
         //        {
@@ -105,6 +109,36 @@ namespace LWBugTracking.Helper
         //            PropertyName = "AssignedToUser",
         //            OldValue = oldTicket.AssignedToUserId.ToString(),
         //            NewValue = newTicket.AssignedToUserId.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //    if (oldTicket.Description != newTicket.Description)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "Description",
+        //            OldValue = oldTicket.Description.ToString(),
+        //            NewValue = newTicket.Description.ToString(),
+        //            TicketId = newTicket.Id,
+        //            UserId = HttpContext.Current.User.Identity.GetUserId()
+
+        //        };
+        //        db.TicketHistories.Add(history);
+        //    }
+
+        //    if (oldTicket.Title != newTicket.Title)
+        //    {
+        //        var history = new TicketHistory
+        //        {
+        //            Changed = DateTime.Now,
+        //            PropertyName = "Title",
+        //            OldValue = oldTicket.Title.ToString(),
+        //            NewValue = newTicket.Title.ToString(),
         //            TicketId = newTicket.Id,
         //            UserId = HttpContext.Current.User.Identity.GetUserId()
 

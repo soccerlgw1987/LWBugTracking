@@ -28,7 +28,7 @@
     <div class="timeline">
         <div class="tm-body">
             <div class="tm-title">
-                <h3 class="h5 text-uppercase">@DateTime.Now.ToString("MMMM dd, yyyy - h:mm tt")</h3>
+                <h3 class="h5 text-uppercase">@DateTime.Now.ToString("MMMM dd, yyyy")</h3>
             </div>
             <ol class="tm-items">
                 @foreach (var item in Model.TicketHistories.OrderByDescending(c => c.Changed))

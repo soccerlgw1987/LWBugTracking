@@ -14,8 +14,8 @@ namespace LWBugTracking.Helper
         {
             return new ProjectTable
             {
-                Projects = db.Projects.ToList(),
-                Tickets = db.Tickets.ToList(),
+                Projects = db.Projects.AsNoTracking().ToList(),
+                Tickets = db.Tickets.AsNoTracking().ToList(),
                 TicketComments = db.TicketComments.ToList(),
                 TicketAttachments = db.TicketAttachments.ToList()
             };
