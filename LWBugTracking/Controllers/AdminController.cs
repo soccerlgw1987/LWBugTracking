@@ -8,6 +8,7 @@ using System.Web.Mvc;
 namespace LWBugTracking.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

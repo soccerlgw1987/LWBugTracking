@@ -13,6 +13,7 @@ using System.Web.Mvc;
 namespace LWBugTracking.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class HomeController : Controller
     {
 

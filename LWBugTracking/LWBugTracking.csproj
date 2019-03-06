@@ -344,6 +344,7 @@
     <Content Include="img\projects\project-6.jpg" />
     <Content Include="img\projects\project-7.jpg" />
     <Content Include="img\projects\project.jpg" />
+    <Content Include="img\select2.png" />
     <Content Include="img\sort_asc.png" />
     <Content Include="img\sort_asc_disabled.png" />
     <Content Include="img\sort_both.png" />

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 namespace LWBugTracking.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

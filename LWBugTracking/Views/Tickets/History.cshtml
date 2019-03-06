@@ -37,24 +37,48 @@
                     {
                         if (item.PropertyName == "AssignedToUserId")
                         {
-                            <li>
-                                <div class="tm-info">
-                                    <div class="tm-icon"><i class="fa fa-bell"></i></div>
-                                    <time class="tm-datetime" datetime="2013-11-19 18:13">
-                                        <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
-                                        <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
-                                    </time>
-                                </div>
-                                <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+                            if (item.OldValue == "e3212997-a371-4fe4-a15b-332aca39d797")
+                            {
+                                <li>
+                                    <div class="tm-info">
+                                        <div class="tm-icon"><i class="fa fa-bell"></i></div>
+                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                        </time>
+                                    </div>
+                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
 
-                                    <p>
-                                        Assigned Developer changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
-                                        <br />
-                                        Changed by @item.User.FirstName @item.User.LastName
-                                    </p>
+                                        <p>
+                                            @LookupData.GetNameFromId(item.PropertyName, item.NewValue) is now assigned as the Developer
+                                            <br />
+                                            Changed by @item.User.FirstName @item.User.LastName
+                                        </p>
 
-                                </div>
-                            </li>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <div class="tm-info">
+                                        <div class="tm-icon"><i class="fa fa-bell"></i></div>
+                                        <time class="tm-datetime" datetime="2013-11-19 18:13">
+                                            <div class="tm-datetime-date">@item.Changed.ToString("MMMM dd, yyyy")</div>
+                                            <div class="tm-datetime-time">@item.Changed.ToString("h:mm tt")</div>
+                                        </time>
+                                    </div>
+                                    <div class="tm-box appear-animation" data-appear-animation="fadeInRight" data-appear-animation-delay="250">
+
+                                        <p>
+                                            Assigned Developer changed from @LookupData.GetNameFromId(item.PropertyName, item.OldValue) to @LookupData.GetNameFromId(item.PropertyName, item.NewValue)
+                                            <br />
+                                            Changed by @item.User.FirstName @item.User.LastName
+                                        </p>
+
+                                    </div>
+                                </li>
+                            }
                         }
                         else if (item.PropertyName == "TicketPriorityId")
                         {

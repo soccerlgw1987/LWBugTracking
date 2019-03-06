@@ -58,7 +58,5 @@ namespace LWBugTracking.Helper
             }
             return resultList;
         }
-
-
     }
 }

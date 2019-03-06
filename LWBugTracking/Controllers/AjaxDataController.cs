@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 
 namespace LWBugTracking.Controllers
 {
+    [Authorize]
     public class AjaxDataController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
